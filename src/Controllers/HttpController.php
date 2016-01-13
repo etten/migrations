@@ -107,14 +107,12 @@ class HttpController extends BaseController
 
 		echo "<h1>Migrations</h1>\n";
 		foreach ($modes as $mode => $heading) {
-			echo "<div class='mode mode-{$mode}'>";
-			echo "<ul>\n";
+			echo "<div class='mode mode-{$mode}'>\n";
 
 			$query = htmlspecialchars(http_build_query(array('action' => 'run', 'mode' => $mode)));
 			$alert = $mode === 1 ? ' onclick="return confirm(\'Are you really sure?\')"' : '';
-			echo "\t<li><a href=\"?$query\"{$alert}>$heading</a>\n";
+			echo "<a href=\"?$query\"{$alert}>$heading</a>\n";
 
-			echo "</ul>";
 			echo "</div>\n\n";
 		}
 	}
