@@ -261,7 +261,7 @@ class OrderResolverTest extends Tester\TestCase
 	}
 
 
-	public function testErrorNewMigrationInTheMiddleOfExistingOnes()
+	public function testNoErrorNewMigrationInTheMiddleOfExistingOnes()
 	{
 		$resolver = new OrderResolver;
 
@@ -272,15 +272,13 @@ class OrderResolverTest extends Tester\TestCase
 		$fileB = $this->createFile('2s', $groupA);
 		$fileC = $this->createFile('3s', $groupA);
 
-		// 1s 2s* 3s
-		Assert::exception(function () use ($resolver, $groupA, $migrationA, $migrationC, $fileA, $fileB, $fileC) {
-			$resolver->resolve(
-				[$migrationC, $migrationA],
-				[$groupA],
-				[$fileA, $fileB, $fileC],
-				Runner::MODE_CONTINUE
-			);
-		}, 'Nextras\Migrations\LogicException', 'New migration "structures/2s" must follow after the latest executed migration "structures/3s".');
+		// 1s 2s 3s
+		Assert::same([$fileB], $resolver->resolve(
+			[$migrationA, $migrationC],
+			[$groupA],
+			[$fileA, $fileB, $fileC],
+			Runner::MODE_CONTINUE
+		));
 	}
 
 
