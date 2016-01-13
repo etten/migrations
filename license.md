@@ -1,6 +1,8 @@
 New BSD License
 ---------------
 
+Copyright (c) 2016 Jaroslav Hranička <hranicka@outlook.com>, ArtFocus
+
 Copyright (c) 2013 Nextras contributors
 
 Copyright (c) 2013 Clevis s.r.o. (http://clevis.cz)

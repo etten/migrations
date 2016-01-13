@@ -1,11 +1,5 @@
-Nextras\Migrations
+Artfocus\Migrations
 ==================
-
-[![Build Status](https://travis-ci.org/nextras/migrations.svg?branch=master)](https://travis-ci.org/nextras/migrations)
-[![Downloads this Month](https://img.shields.io/packagist/dm/nextras/migrations.svg?style=flat)](https://packagist.org/packages/nextras/migrations)
-[![Stable version](http://img.shields.io/packagist/v/nextras/migrations.svg?style=flat)](https://packagist.org/packages/nextras/migrations)
-[![Code coverage](https://img.shields.io/coveralls/nextras/migrations.svg?style=flat)](https://coveralls.io/r/nextras/migrations)
-[![HHVM Status](http://img.shields.io/hhvm/nextras/migrations.svg?style=flat)](http://hhvm.h4cc.de/package/nextras/migrations)
 
 For more information read **[documentation](http://nextras.cz/migrations/docs)**.
 
@@ -23,6 +17,7 @@ For more information read **[documentation](http://nextras.cz/migrations/docs)**
 License
 -------
 
+*Based on [Nextras\Migrations](https://github.com/nextras/migrations) and further customized.*
 *Based on [Clevis\Migration](https://github.com/clevis/migration) by Petr Procházka and further improved.*
 
 New BSD License. See full [license](license.md).
