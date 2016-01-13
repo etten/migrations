@@ -60,8 +60,9 @@ class HttpController extends BaseController
 					}
 				}
 			} else {
-				$error = 'Missing or invalid groups parameter.';
-				goto error;
+				foreach ($this->groups as $group) {
+					$group->enabled = TRUE;
+				}
 			}
 
 			if (!isset($_GET['mode'])) {
@@ -96,7 +97,6 @@ class HttpController extends BaseController
 
 	private function actionIndex()
 	{
-		$combinations = $this->getGroupsCombinations();
 		$this->printHeader();
 
 		$modes = array(
@@ -108,14 +108,12 @@ class HttpController extends BaseController
 		echo "<h1>Migrations</h1>\n";
 		foreach ($modes as $mode => $heading) {
 			echo "<div class='mode mode-{$mode}'>";
-			echo "$heading\n";
 			echo "<ul>\n";
-			foreach ($combinations as $combination) {
-				$query = htmlspecialchars(http_build_query(array('action' => 'run' , 'groups' => $combination, 'mode' => $mode)));
-				$text = htmlspecialchars(implode(' + ', $combination));
-				$alert = $mode === 1 ? ' onclick="return confirm(\'Are you really sure?\')"' : '';
-				echo "\t<li><a href=\"?$query\"{$alert}>Run $text</a>\n";
-			}
+
+			$query = htmlspecialchars(http_build_query(array('action' => 'run', 'mode' => $mode)));
+			$alert = $mode === 1 ? ' onclick="return confirm(\'Are you really sure?\')"' : '';
+			echo "\t<li><a href=\"?$query\"{$alert}>$heading</a>\n";
+
 			echo "</ul>";
 			echo "</div>\n\n";
 		}
@@ -147,39 +145,6 @@ class HttpController extends BaseController
 		$this->printHeader();
 		echo "<h1>Migrations – error</h1>\n";
 		echo "<div class=\"error-message\">" . nl2br(htmlspecialchars($this->error), FALSE) . "</div>\n";
-	}
-
-
-	private function getGroupsCombinations()
-	{
-		$groups = array();
-		$index = 1;
-		foreach ($this->groups as $group) {
-			$groups[$index] = $group;
-			$index = ($index << 1);
-		}
-
-		$combinations = array();
-		for ($i = 1; true; $i++) {
-			$combination = array();
-			foreach ($groups as $key => $group) {
-				if ($i & $key) {
-					$combination[] = $group->name;
-				}
-			}
-
-			if (empty($combination)) {
-				break;
-			}
-
-			foreach ($combination as $groupName) {
-				foreach ($this->groups[$groupName]->dependencies as $dependency) {
-					if (!in_array($dependency, $combination)) continue 3;
-				}
-			}
-			$combinations[] = $combination;
-		}
-		return $combinations;
 	}
 
 
