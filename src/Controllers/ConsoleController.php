@@ -64,6 +64,13 @@ class ConsoleController extends BaseController
 			}
 		}
 
+		if (!$groups) {
+			foreach ($this->groups as $group) {
+				$group->enabled = TRUE;
+			}
+			$groups = TRUE;
+		}
+
 		if (!$groups && !$help) {
 			fprintf(STDERR, "Error: At least one group must be enabled.\n");
 			$error = TRUE;
