@@ -25,11 +25,6 @@
 		"doctrine/dbal": "to use DoctrineAdapter",
 		"symfony/console": "to use Symfony commands"
 	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "3.1-dev"
-		}
-	},
 	"autoload": {
 		"psr-4": { "Nextras\\Migrations\\": "src/" },
 		"classmap": ["src/exceptions.php", "src/deprecated"]
