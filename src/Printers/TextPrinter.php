@@ -64,7 +64,7 @@ class TextPrinter implements IPrinter
 
 	protected function output($s)
 	{
-		echo "$s\r\n";
+		echo "$s\n";
 	}
 
 }
