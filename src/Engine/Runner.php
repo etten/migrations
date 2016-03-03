@@ -7,22 +7,22 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Engine;
+namespace Etten\Migrations\Engine;
 
 use DateTime;
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\Entities\Migration;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\ExecutionException;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\IExtensionHandler;
-use Nextras\Migrations\IPrinter;
-use Nextras\Migrations\LogicException;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Group;
+use Etten\Migrations\Entities\Migration;
+use Etten\Migrations\Exception;
+use Etten\Migrations\ExecutionException;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\IExtensionHandler;
+use Etten\Migrations\IPrinter;
+use Etten\Migrations\LogicException;
 
 class Runner
 {
+
 	/** @const modes */
 	const MODE_CONTINUE = 'continue';
 	const MODE_RESET = 'reset';
@@ -32,10 +32,10 @@ class Runner
 	private $printer;
 
 	/** @var array (extension => IExtensionHandler) */
-	private $extensionsHandlers = array();
+	private $extensionsHandlers = [];
 
 	/** @var Group[] */
-	private $groups = array();
+	private $groups = [];
 
 	/** @var IDriver */
 	private $driver;
@@ -46,7 +46,6 @@ class Runner
 	/** @var OrderResolver */
 	private $orderResolver;
 
-
 	public function __construct(IDriver $driver, IPrinter $printer)
 	{
 		$this->driver = $driver;
@@ -55,16 +54,14 @@ class Runner
 		$this->orderResolver = new OrderResolver;
 	}
 
-
 	public function addGroup(Group $group)
 	{
 		$this->groups[] = $group;
 		return $this;
 	}
 
-
 	/**
-	 * @param  string            $extension
+	 * @param  string $extension
 	 * @param  IExtensionHandler $handler
 	 * @return self
 	 */
@@ -78,7 +75,6 @@ class Runner
 		return $this;
 	}
 
-
 	/**
 	 * @param  string $mode self::MODE_CONTINUE|self::MODE_RESET|self::MODE_INIT
 	 * @return void
@@ -88,7 +84,7 @@ class Runner
 		if ($mode === self::MODE_INIT) {
 			$this->printer->printSource($this->driver->getInitTableSource() . "\n");
 			$files = $this->finder->find($this->groups, array_keys($this->extensionsHandlers));
-			$files = $this->orderResolver->resolve(array(), $this->groups, $files, self::MODE_RESET);
+			$files = $this->orderResolver->resolve([], $this->groups, $files, self::MODE_RESET);
 			$this->printer->printSource($this->driver->getInitMigrationsSource($files));
 			return;
 		}
@@ -124,7 +120,6 @@ class Runner
 		}
 	}
 
-
 	/**
 	 * @param  string $name
 	 * @return IExtensionHandler
@@ -136,7 +131,6 @@ class Runner
 		}
 		return $this->extensionsHandlers[$name];
 	}
-
 
 	/**
 	 * @param  File $file

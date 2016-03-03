@@ -7,15 +7,14 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Bridges\SymfonyConsole;
+namespace Etten\Migrations\Bridges\SymfonyConsole;
 
 use Nette;
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Extensions;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Extensions;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
 
 class ContinueCommand extends BaseCommand
 {

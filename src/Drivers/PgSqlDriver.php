@@ -7,14 +7,13 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Drivers;
+namespace Etten\Migrations\Drivers;
 
 use DateTime;
-use Nextras\Migrations\Entities\Migration;
-use Nextras\Migrations\IDbal;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\LockException;
-
+use Etten\Migrations\Entities\Migration;
+use Etten\Migrations\IDbal;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\LockException;
 
 /**
  * @author Jan Skrasek
@@ -23,6 +22,7 @@ use Nextras\Migrations\LockException;
  */
 class PgSqlDriver extends BaseDriver implements IDriver
 {
+
 	/** @var string */
 	protected $schema;
 
@@ -35,9 +35,8 @@ class PgSqlDriver extends BaseDriver implements IDriver
 	/** @var string */
 	protected $lockTableName;
 
-
 	/**
-	 * @param IDbal  $dbal
+	 * @param IDbal $dbal
 	 * @param string $tableName
 	 * @param string $schema
 	 */
@@ -50,11 +49,9 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->lockTableName = $dbal->escapeIdentifier($tableName . '_lock');
 	}
 
-
 	public function setupConnection()
 	{
 	}
-
 
 	public function emptyDatabase()
 	{
@@ -62,29 +59,25 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("CREATE SCHEMA {$this->schema}");
 	}
 
-
 	public function beginTransaction()
 	{
 		$this->dbal->exec('START TRANSACTION');
 	}
-
 
 	public function commitTransaction()
 	{
 		$this->dbal->exec('COMMIT');
 	}
 
-
 	public function rollbackTransaction()
 	{
 		$this->dbal->exec('ROLLBACK');
 	}
 
-
 	public function lock()
 	{
 		try {
-			$schemaExist = (bool) $this->dbal->query("
+			$schemaExist = (bool)$this->dbal->query("
 				SELECT schema_name
 				FROM information_schema.schemata
 				WHERE schema_name = {$this->schemaStr}
@@ -101,7 +94,6 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		}
 	}
 
-
 	public function unlock()
 	{
 		try {
@@ -111,35 +103,31 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		}
 	}
 
-
 	public function createTable()
 	{
 		$this->dbal->exec($this->getInitTableSource());
 	}
-
 
 	public function dropTable()
 	{
 		$this->dbal->exec("DROP TABLE {$this->schema}.{$this->tableName}");
 	}
 
-
 	public function insertMigration(Migration $migration)
 	{
 		$this->dbal->exec("
 			INSERT INTO {$this->schema}.{$this->tableName}" . '
 			("group", "file", "checksum", "executed", "ready") VALUES (' .
-				$this->dbal->escapeString($migration->group) . "," .
-				$this->dbal->escapeString($migration->filename) . "," .
-				$this->dbal->escapeString($migration->checksum) . "," .
-				$this->dbal->escapeDateTime($migration->executedAt) . "," .
-				$this->dbal->escapeBool(FALSE) .
+			$this->dbal->escapeString($migration->group) . "," .
+			$this->dbal->escapeString($migration->filename) . "," .
+			$this->dbal->escapeString($migration->checksum) . "," .
+			$this->dbal->escapeDateTime($migration->executedAt) . "," .
+			$this->dbal->escapeBool(FALSE) .
 			")
 		");
 
-		$migration->id = (int) $this->dbal->query('SELECT CURRVAL('. $this->primarySequence . ') AS id')[0]['id'];
+		$migration->id = (int)$this->dbal->query('SELECT CURRVAL(' . $this->primarySequence . ') AS id')[0]['id'];
 	}
-
 
 	public function markMigrationAsReady(Migration $migration)
 	{
@@ -150,26 +138,24 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		);
 	}
 
-
 	public function getAllMigrations()
 	{
-		$migrations = array();
+		$migrations = [];
 		$result = $this->dbal->query("SELECT * FROM {$this->schema}.{$this->tableName} ORDER BY \"executed\"");
 		foreach ($result as $row) {
 			$migration = new Migration;
-			$migration->id = (int) $row['id'];
+			$migration->id = (int)$row['id'];
 			$migration->group = $row['group'];
 			$migration->filename = $row['file'];
 			$migration->checksum = $row['checksum'];
 			$migration->executedAt = (is_string($row['executed']) ? new DateTime($row['executed']) : $row['executed']);
-			$migration->completed = (bool) $row['ready'];
+			$migration->completed = (bool)$row['ready'];
 
 			$migrations[] = $migration;
 		}
 
 		return $migrations;
 	}
-
 
 	public function getInitTableSource()
 	{
@@ -187,18 +173,17 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		'));
 	}
 
-
 	public function getInitMigrationsSource(array $files)
 	{
 		$out = '';
 		foreach ($files as $file) {
 			$out .= "INSERT INTO {$this->schema}.{$this->tableName} ";
 			$out .= '("group", "file", "checksum", "executed", "ready") VALUES (' .
-					$this->dbal->escapeString($file->group->name) . ", " .
-					$this->dbal->escapeString($file->name) . ", " .
-					$this->dbal->escapeString($file->checksum) . ", " .
-					$this->dbal->escapeDateTime(new DateTime('now')) . ", " .
-					$this->dbal->escapeBool(TRUE) .
+				$this->dbal->escapeString($file->group->name) . ", " .
+				$this->dbal->escapeString($file->name) . ", " .
+				$this->dbal->escapeString($file->checksum) . ", " .
+				$this->dbal->escapeDateTime(new DateTime('now')) . ", " .
+				$this->dbal->escapeBool(TRUE) .
 				");\n";
 		}
 		return $out;

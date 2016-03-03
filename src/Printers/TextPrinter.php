@@ -7,11 +7,11 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Printers;
+namespace Etten\Migrations\Printers;
 
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\IPrinter;
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Exception;
+use Etten\Migrations\IPrinter;
 
 class TextPrinter implements IPrinter
 {

@@ -7,13 +7,12 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Printers;
+namespace Etten\Migrations\Printers;
 
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\IPrinter;
-
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Exception;
+use Etten\Migrations\IPrinter;
 
 /**
  * @author Mikulas Dite
@@ -21,6 +20,7 @@ use Nextras\Migrations\IPrinter;
  */
 class Console implements IPrinter
 {
+
 	/** @const console colors */
 	const COLOR_ERROR = '1;31';
 	const COLOR_SUCCESS = '1;32';
@@ -30,23 +30,20 @@ class Console implements IPrinter
 	/** @var bool */
 	protected $useColors;
 
-
 	public function __construct()
 	{
 		$this->useColors = $this->detectColorSupport();
 	}
 
-
 	public function printIntro($mode)
 	{
-		$this->output('Nextras Migrations');
+		$this->output('Etten Migrations');
 		if ($mode === Runner::MODE_RESET) {
 			$this->output('RESET', self::COLOR_INTRO);
 		} else {
 			$this->output('CONTINUE', self::COLOR_INTRO);
 		}
 	}
-
 
 	public function printToExecute(array $toExecute)
 	{
@@ -58,7 +55,6 @@ class Console implements IPrinter
 		}
 	}
 
-
 	public function printExecute(File $file, $count, $time)
 	{
 		$this->output(
@@ -68,12 +64,10 @@ class Console implements IPrinter
 		);
 	}
 
-
 	public function printDone()
 	{
 		$this->output('OK', self::COLOR_SUCCESS);
 	}
-
 
 	public function printError(Exception $e)
 	{
@@ -81,16 +75,14 @@ class Console implements IPrinter
 		throw $e;
 	}
 
-
 	public function printSource($code)
 	{
 		$this->output($code);
 	}
 
-
 	/**
 	 * Prints text to a console, optionally in a specific color.
-	 * @param  string      $s
+	 * @param  string $s
 	 * @param  string|NULL $color self::COLOR_*
 	 */
 	protected function output($s, $color = NULL)
@@ -101,7 +93,6 @@ class Console implements IPrinter
 			echo $this->color($s, $color) . "\n";
 		}
 	}
-
 
 	/**
 	 * @param  string $s
@@ -115,7 +106,6 @@ class Console implements IPrinter
 		}
 		return "\033[{$color}m$s\033[22;39m";
 	}
-
 
 	/**
 	 * @author  David Grudl

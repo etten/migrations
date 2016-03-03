@@ -7,12 +7,11 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Extensions;
+namespace Etten\Migrations\Extensions;
 
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\IExtensionHandler;
-use Nextras\Migrations\IOException;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\IExtensionHandler;
+use Etten\Migrations\IOException;
 
 /**
  * @author Petr Procházka
@@ -20,6 +19,7 @@ use Nextras\Migrations\IOException;
  */
 class PhpHandler implements IExtensionHandler
 {
+
 	/** @var array name => value */
 	private $params = [];
 
@@ -33,10 +33,9 @@ class PhpHandler implements IExtensionHandler
 		}
 	}
 
-
 	/**
 	 * @param  string $name
-	 * @param  mixed  $value
+	 * @param  mixed $value
 	 * @return self
 	 */
 	public function addParameter($name, $value)
@@ -45,7 +44,6 @@ class PhpHandler implements IExtensionHandler
 		return $this;
 	}
 
-
 	/**
 	 * @return array (name => value)
 	 */
@@ -53,7 +51,6 @@ class PhpHandler implements IExtensionHandler
 	{
 		return $this->params;
 	}
-
 
 	public function execute(File $file)
 	{

@@ -5,23 +5,23 @@
  * @dataProvider ../../dbals.ini
  */
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
+use Etten\Migrations\Engine\Runner;
 use Mockery;
-use Nextras\Migrations\Engine\Runner;
 use Tester;
 use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
 
-
 class EmptyRunTest extends IntegrationTestCase
 {
+
 	public function testReset()
 	{
 		$this->runner->run(Runner::MODE_RESET);
 		Assert::same([
-			'Nextras Migrations',
+			'Etten Migrations',
 			'RESET',
 			'No migration needs to be executed.',
 			'OK',
@@ -30,13 +30,11 @@ class EmptyRunTest extends IntegrationTestCase
 		Assert::count(0, $this->driver->getAllMigrations());
 	}
 
-
 	protected function getGroups($dir)
 	{
 		return [];
 	}
 
 }
-
 
 (new EmptyRunTest)->run();

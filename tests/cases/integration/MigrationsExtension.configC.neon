@@ -4,4 +4,4 @@ migrations:
 
 services:
 	- DibiConnection(%dibiConfig%)
-	- Nextras\Migrations\Bridges\Dibi\DibiAdapter(...)
+	- Etten\Migrations\Bridges\Dibi\DibiAdapter(...)

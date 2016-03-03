@@ -7,28 +7,28 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Engine;
+namespace Etten\Migrations\Engine;
 
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\IOException;
-use Nextras\Migrations\LogicException;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Group;
+use Etten\Migrations\Exception;
+use Etten\Migrations\IOException;
+use Etten\Migrations\LogicException;
 
 class Finder
 {
+
 	/**
 	 * Finds files.
 	 *
-	 * @param  Group[]  $groups
+	 * @param  Group[] $groups
 	 * @param  string[] $extensions
 	 * @return File[]
 	 * @throws Exception
 	 */
 	public function find(array $groups, array $extensions)
 	{
-		$files = array();
+		$files = [];
 		foreach ($groups as $group) {
 			if (!$group->enabled) {
 				continue;
@@ -48,7 +48,6 @@ class Finder
 		return $files;
 	}
 
-
 	/**
 	 * Returns logical name of migration file.
 	 * @param  string $path relative path to group directory
@@ -63,10 +62,9 @@ class Finder
 		return ($isPrefix ? $fileName : "$dirName-$fileName");
 	}
 
-
 	/**
 	 * Returns file extension.
-	 * @param  File     $file
+	 * @param  File $file
 	 * @param  string[] $extensions
 	 * @return string
 	 * @throws Exception
@@ -99,7 +97,6 @@ class Finder
 		return $fileExt;
 	}
 
-
 	/**
 	 * @param  File $file
 	 * @return string
@@ -114,9 +111,8 @@ class Finder
 		return md5(str_replace(["\r\n", "\r"], "\n", $content));
 	}
 
-
 	/**
-	 * @param  string  $dir
+	 * @param  string $dir
 	 * @return string[]
 	 * @throws IOException
 	 */
@@ -128,7 +124,7 @@ class Finder
 			if ($item[0] === '.') {
 				unset($items[$i]);
 
-			// year or month
+				// year or month
 			} elseif (ctype_digit($item) /*&& is_dir($item)*/) {
 				unset($items[$i]);
 				foreach ($this->getFilesRecursive("$dir/$item") as $subItem) {
@@ -139,7 +135,6 @@ class Finder
 
 		return array_values($items);
 	}
-
 
 	/**
 	 * @param  string $dir

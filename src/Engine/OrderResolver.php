@@ -7,22 +7,21 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Engine;
+namespace Etten\Migrations\Engine;
 
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\Entities\Migration;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\LogicException;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Group;
+use Etten\Migrations\Entities\Migration;
+use Etten\Migrations\Exception;
+use Etten\Migrations\LogicException;
 
 class OrderResolver
 {
 	/**
 	 * @param  Migration[] $migrations
-	 * @param  Group[]     $groups
-	 * @param  File[]      $files
-	 * @param  string      $mode
+	 * @param  Group[] $groups
+	 * @param  File[] $files
+	 * @param  string $mode
 	 * @return File[]
 	 * @throws Exception
 	 */
@@ -82,10 +81,9 @@ class OrderResolver
 		return $files;
 	}
 
-
 	/**
 	 * @param  File[] $files
-	 * @param  array  $groups (name => Group)
+	 * @param  array $groups (name => Group)
 	 * @return File[] sorted
 	 */
 	protected function sortFiles(array $files, array $groups)
@@ -117,11 +115,10 @@ class OrderResolver
 		return $files;
 	}
 
-
 	/**
 	 * Returns TRUE if groupA depends on groupB.
 	 *
-	 * @param  array  $groups (name => Group)
+	 * @param  array $groups (name => Group)
 	 * @param  Group $groupA
 	 * @param  Group $groupB
 	 * @return bool
@@ -130,7 +127,7 @@ class OrderResolver
 	{
 		$visited = [];
 		$queue = $groupB->dependencies;
-		while ($node = array_shift($queue)) {
+		while (($node = array_shift($queue))) {
 			if (isset($visited[$node])) {
 				continue;
 			}
@@ -147,40 +144,36 @@ class OrderResolver
 		return FALSE;
 	}
 
-
 	protected function getAssocMigrations(array $migrations)
 	{
-		$assoc = array();
+		$assoc = [];
 		foreach ($migrations as $migration) {
 			$assoc[$migration->group][$migration->filename] = $migration;
 		}
 		return $assoc;
 	}
 
-
 	protected function getAssocGroups(array $groups)
 	{
-		$assoc = array();
+		$assoc = [];
 		foreach ($groups as $group) {
 			$assoc[$group->name] = $group;
 		}
 		return $assoc;
 	}
 
-
 	protected function getAssocFiles(array $files)
 	{
-		$assoc = array();
+		$assoc = [];
 		foreach ($files as $file) {
 			$assoc[$file->group->name][$file->name] = $file;
 		}
 		return $assoc;
 	}
 
-
 	protected function getFlatFiles(array $files)
 	{
-		$flat = array();
+		$flat = [];
 		foreach ($files as $tmp) {
 			foreach ($tmp as $file) {
 				$flat[] = $file;
@@ -188,7 +181,6 @@ class OrderResolver
 		}
 		return $flat;
 	}
-
 
 	/**
 	 * @param  Group[] $groups

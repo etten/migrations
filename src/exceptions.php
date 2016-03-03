@@ -7,7 +7,7 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations;
+namespace Etten\Migrations;
 
 interface Exception
 {

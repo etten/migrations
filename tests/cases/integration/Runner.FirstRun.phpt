@@ -5,15 +5,14 @@
  * @dataProvider ../../dbals.ini
  */
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
+use Etten\Migrations\Engine\Runner;
 use Mockery;
-use Nextras\Migrations\Engine\Runner;
 use Tester;
 use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
-
 
 class FirstRunTest extends IntegrationTestCase
 {
@@ -21,7 +20,7 @@ class FirstRunTest extends IntegrationTestCase
 	{
 		$this->runner->run(Runner::MODE_RESET);
 		Assert::same([
-			'Nextras Migrations',
+			'Etten Migrations',
 			'RESET',
 			'5 migrations need to be executed.',
 			'- structures/001.sql; 1 queries; XX ms',
@@ -54,12 +53,11 @@ class FirstRunTest extends IntegrationTestCase
 		Assert::same('basic-data', $migrations[2]->group);
 	}
 
-
 	public function testContinue()
 	{
 		$this->runner->run(Runner::MODE_CONTINUE);
 		Assert::same([
-			'Nextras Migrations',
+			'Etten Migrations',
 			'CONTINUE',
 			'5 migrations need to be executed.',
 			'- structures/001.sql; 1 queries; XX ms',
@@ -92,7 +90,6 @@ class FirstRunTest extends IntegrationTestCase
 		Assert::same('basic-data', $migrations[2]->group);
 	}
 
-
 	public function testInit()
 	{
 		$options = Tester\Environment::loadData();
@@ -112,6 +109,5 @@ class FirstRunTest extends IntegrationTestCase
 	}
 
 }
-
 
 (new FirstRunTest)->run();

@@ -7,25 +7,23 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Bridges\Dibi;
+namespace Etten\Migrations\Bridges\Dibi;
 
 use DateTime;
 use dibi;
 use DibiConnection;
-use Nextras\Migrations\IDbal;
-
+use Etten\Migrations\IDbal;
 
 class DibiAdapter implements IDbal
 {
+
 	/** @var DibiConnection */
 	private $conn;
-
 
 	public function __construct(DibiConnection $dibi)
 	{
 		$this->conn = $dibi;
 	}
-
 
 	public function query($sql)
 	{
@@ -34,36 +32,30 @@ class DibiAdapter implements IDbal
 		return $result->fetchAll();
 	}
 
-
 	public function exec($sql)
 	{
 		return $this->conn->nativeQuery($sql);
 	}
-
 
 	public function escapeString($value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::TEXT);
 	}
 
-
 	public function escapeInt($value)
 	{
-		return (int) $value;
+		return (int)$value;
 	}
-
 
 	public function escapeBool($value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::BOOL);
 	}
 
-
 	public function escapeDateTime(DateTime $value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::DATETIME);
 	}
-
 
 	public function escapeIdentifier($value)
 	{

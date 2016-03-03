@@ -7,10 +7,9 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Entities;
+namespace Etten\Migrations\Entities;
 
 use DateTime;
-
 
 /**
  * @author Petr Procházka
@@ -18,6 +17,7 @@ use DateTime;
  */
 class Migration
 {
+
 	/** @var int */
 	public $id;
 

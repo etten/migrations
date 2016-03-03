@@ -4,13 +4,13 @@
  * @testCase
  */
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
-use Nextras\Migrations\Engine\OrderResolver;
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Entities\Migration;
+use Etten\Migrations\Engine\OrderResolver;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\Group;
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Migration;
 use Mockery;
 use Tester;
 use Tester\Assert;
@@ -169,7 +169,7 @@ class OrderResolverTest extends Tester\TestCase
 		$groupB = $this->createGroup('data', FALSE, ['structures']);
 		$groupC = $this->createGroup('test-data', FALSE, ['data']);
 
-		$method = new \ReflectionMethod('Nextras\Migrations\Engine\OrderResolver', 'validateGroups');
+		$method = new \ReflectionMethod('Etten\Migrations\Engine\OrderResolver', 'validateGroups');
 		$method->setAccessible(TRUE);
 		$method->invoke(new OrderResolver, [
 			'structures' => $groupA,
@@ -215,7 +215,7 @@ class OrderResolverTest extends Tester\TestCase
 				[$fileB],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Previously executed migration "structures/1s" is missing.');
+		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" is missing.');
 	}
 
 
@@ -236,7 +236,7 @@ class OrderResolverTest extends Tester\TestCase
 				[$fileB, $fileA],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Previously executed migration "structures/1s" has been changed.');
+		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" has been changed.');
 	}
 
 
@@ -257,7 +257,7 @@ class OrderResolverTest extends Tester\TestCase
 				[$fileB, $fileA],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Previously executed migration "structures/1s" did not succeed. Please fix this manually or reset the migrations.');
+		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" did not succeed. Please fix this manually or reset the migrations.');
 	}
 
 
@@ -295,7 +295,7 @@ class OrderResolverTest extends Tester\TestCase
 				[],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Existing migrations depend on unknown group "foo".');
+		}, 'Etten\Migrations\LogicException', 'Existing migrations depend on unknown group "foo".');
 	}
 
 
@@ -312,7 +312,7 @@ class OrderResolverTest extends Tester\TestCase
 				[],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Group "data" depends on unknown group "structures".');
+		}, 'Etten\Migrations\LogicException', 'Group "data" depends on unknown group "structures".');
 	}
 
 
@@ -330,7 +330,7 @@ class OrderResolverTest extends Tester\TestCase
 				[],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Group "data" depends on disabled group "structures". Please enable group "structures" to continue.');
+		}, 'Etten\Migrations\LogicException', 'Group "data" depends on disabled group "structures". Please enable group "structures" to continue.');
 	}
 
 
@@ -351,7 +351,7 @@ class OrderResolverTest extends Tester\TestCase
 				[$fileA, $fileB],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
+		}, 'Etten\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
 	}
 
 
@@ -372,7 +372,7 @@ class OrderResolverTest extends Tester\TestCase
 				[$fileA, $fileB],
 				Runner::MODE_CONTINUE
 			);
-		}, 'Nextras\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
+		}, 'Etten\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
 	}
 
 

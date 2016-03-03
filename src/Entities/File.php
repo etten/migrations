@@ -7,8 +7,7 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Entities;
-
+namespace Etten\Migrations\Entities;
 
 /**
  * @author Petr Procházka
@@ -16,6 +15,7 @@ namespace Nextras\Migrations\Entities;
  */
 class File
 {
+
 	/** @var Group */
 	public $group;
 

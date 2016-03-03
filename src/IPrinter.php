@@ -7,10 +7,9 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations;
+namespace Etten\Migrations;
 
-use Nextras\Migrations\Entities\File;
-
+use Etten\Migrations\Entities\File;
 
 /**
  * @author Petr Procházka
@@ -23,15 +22,13 @@ interface IPrinter
 	 * - continue = Running new migrations.
 	 * @param  string $mode
 	 */
-	function printIntro($mode);
-
+	public function printIntro($mode);
 
 	/**
 	 * List of migrations which should be executed has been completed.
 	 * @param  File[] $toExecute
 	 */
-	function printToExecute(array $toExecute);
-
+	public function printToExecute(array $toExecute);
 
 	/**
 	 * A migration has been successfully executed.
@@ -39,26 +36,23 @@ interface IPrinter
 	 * @param  int $count number of executed queries
 	 * @param  float $time elapsed time in miliseconds
 	 */
-	function printExecute(File $file, $count, $time);
-
+	public function printExecute(File $file, $count, $time);
 
 	/**
 	 * All migrations have been successfully executed.
 	 */
-	function printDone();
-
+	public function printDone();
 
 	/**
 	 * An error has occurred during execution of a migration.
 	 * @param  Exception $e
 	 */
-	function printError(Exception $e);
-
+	public function printError(Exception $e);
 
 	/**
 	 * Prints init source code.
 	 * @param  string $code
 	 */
-	function printSource($code);
+	public function printSource($code);
 
 }

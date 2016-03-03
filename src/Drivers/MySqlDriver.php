@@ -7,13 +7,12 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Drivers;
+namespace Etten\Migrations\Drivers;
 
 use DateTime;
-use Nextras\Migrations\Entities\Migration;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\LockException;
-
+use Etten\Migrations\Entities\Migration;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\LockException;
 
 /**
  * @author Jan Skrasek
@@ -22,6 +21,7 @@ use Nextras\Migrations\LockException;
  */
 class MySqlDriver extends BaseDriver implements IDriver
 {
+
 	public function setupConnection()
 	{
 		$this->dbal->exec('SET NAMES "utf8"');
@@ -29,7 +29,6 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec('SET time_zone = "SYSTEM"');
 		$this->dbal->exec('SET sql_mode = "TRADITIONAL"');
 	}
-
 
 	public function emptyDatabase()
 	{
@@ -44,73 +43,64 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("USE $dbName");
 	}
 
-
 	public function beginTransaction()
 	{
 		$this->dbal->exec('START TRANSACTION');
 	}
-
 
 	public function commitTransaction()
 	{
 		$this->dbal->exec('COMMIT');
 	}
 
-
 	public function rollbackTransaction()
 	{
 		$this->dbal->exec('ROLLBACK');
 	}
 
-
 	public function lock()
 	{
 		$lock = $this->dbal->escapeString(self::LOCK_NAME);
-		$result = (int) $this->dbal->query("SELECT GET_LOCK($lock, 3) AS `result`")[0]['result'];
+		$result = (int)$this->dbal->query("SELECT GET_LOCK($lock, 3) AS `result`")[0]['result'];
 		if ($result !== 1) {
 			throw new LockException('Unable to acquire a lock.');
 		}
 	}
 
-
 	public function unlock()
 	{
 		$lock = $this->dbal->escapeString(self::LOCK_NAME);
-		$result = (int) $this->dbal->query("SELECT RELEASE_LOCK($lock) AS `result`")[0]['result'];
+		$result = (int)$this->dbal->query("SELECT RELEASE_LOCK($lock) AS `result`")[0]['result'];
 		if ($result !== 1) {
 			throw new LockException('Unable to release a lock.');
 		}
 	}
-
 
 	public function createTable()
 	{
 		$this->dbal->exec($this->getInitTableSource());
 	}
 
-
 	public function dropTable()
 	{
 		$this->dbal->exec("DROP TABLE {$this->tableName}");
 	}
-
 
 	public function insertMigration(Migration $migration)
 	{
 		$this->dbal->exec("
 			INSERT INTO {$this->tableName}
 			(`group`, `file`, `checksum`, `executed`, `ready`) VALUES (" .
-				$this->dbal->escapeString($migration->group) . "," .
-				$this->dbal->escapeString($migration->filename) . "," .
-				$this->dbal->escapeString($migration->checksum) . "," .
-				$this->dbal->escapeDateTime($migration->executedAt) . "," .
-				$this->dbal->escapeBool(FALSE) .
+			$this->dbal->escapeString($migration->group) . "," .
+			$this->dbal->escapeString($migration->filename) . "," .
+			$this->dbal->escapeString($migration->checksum) . "," .
+			$this->dbal->escapeDateTime($migration->executedAt) . "," .
+			$this->dbal->escapeBool(FALSE) .
 			")
 		");
 
-		$migration->id = (int) $this->dbal->query('SELECT LAST_INSERT_ID() AS `id`')[0]['id'];
+		$migration->id = (int)$this->dbal->query('SELECT LAST_INSERT_ID() AS `id`')[0]['id'];
 	}
-
 
 	public function markMigrationAsReady(Migration $migration)
 	{
@@ -121,26 +111,24 @@ class MySqlDriver extends BaseDriver implements IDriver
 		);
 	}
 
-
 	public function getAllMigrations()
 	{
-		$migrations = array();
+		$migrations = [];
 		$result = $this->dbal->query("SELECT * FROM {$this->tableName} ORDER BY `executed`");
 		foreach ($result as $row) {
 			$migration = new Migration;
-			$migration->id = (int) $row['id'];
+			$migration->id = (int)$row['id'];
 			$migration->group = $row['group'];
 			$migration->filename = $row['file'];
 			$migration->checksum = $row['checksum'];
 			$migration->executedAt = (is_string($row['executed']) ? new DateTime($row['executed']) : $row['executed']);
-			$migration->completed = (bool) $row['ready'];
+			$migration->completed = (bool)$row['ready'];
 
 			$migrations[] = $migration;
 		}
 
 		return $migrations;
 	}
-
 
 	public function getInitTableSource()
 	{
@@ -158,7 +146,6 @@ class MySqlDriver extends BaseDriver implements IDriver
 		"));
 	}
 
-
 	public function getInitMigrationsSource(array $files)
 	{
 		$out = '';
@@ -170,7 +157,7 @@ class MySqlDriver extends BaseDriver implements IDriver
 				$this->dbal->escapeString($file->checksum) . ", " .
 				$this->dbal->escapeDateTime(new DateTime('now')) . ", " .
 				$this->dbal->escapeBool(TRUE) .
-			");\n";
+				");\n";
 		}
 		return $out;
 	}

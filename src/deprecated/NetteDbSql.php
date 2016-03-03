@@ -7,19 +7,19 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Extensions;
+namespace Etten\Migrations\Extensions;
 
+use Etten\Migrations\Bridges\NetteDatabase\NetteAdapter;
+use Etten\Migrations\Drivers\MySqlDriver;
+use Etten\Migrations\Drivers\PgSqlDriver;
 use Nette;
-use Nextras\Migrations\Bridges\NetteDatabase\NetteAdapter;
-use Nextras\Migrations\Drivers\MySqlDriver;
-use Nextras\Migrations\Drivers\PgSqlDriver;
-
 
 /**
  * @deprecated
  */
 class NetteDbSql extends SqlHandler
 {
+
 	public function __construct(Nette\Database\Context $context)
 	{
 		trigger_error(sprintf('Class %s is deprecated, use class SqlHandler instead.', __CLASS__), E_USER_DEPRECATED);
@@ -37,7 +37,6 @@ class NetteDbSql extends SqlHandler
 			throw new \LogicException();
 		}
 	}
-
 
 	public function getName()
 	{

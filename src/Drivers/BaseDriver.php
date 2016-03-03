@@ -7,12 +7,11 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Drivers;
+namespace Etten\Migrations\Drivers;
 
-use Nextras\Migrations\IDbal;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\IOException;
-
+use Etten\Migrations\IDbal;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\IOException;
 
 /**
  * @author Jan Skrasek
@@ -21,15 +20,15 @@ use Nextras\Migrations\IOException;
  */
 abstract class BaseDriver implements IDriver
 {
+
 	/** @var IDbal */
 	protected $dbal;
 
 	/** @var string */
 	protected $tableName;
 
-
 	/**
-	 * @param IDbal  $dbal
+	 * @param IDbal $dbal
 	 * @param string $tableName
 	 */
 	public function __construct(IDbal $dbal, $tableName = 'migrations')
@@ -37,7 +36,6 @@ abstract class BaseDriver implements IDriver
 		$this->dbal = $dbal;
 		$this->tableName = $dbal->escapeIdentifier($tableName);
 	}
-
 
 	/**
 	 * Loads and executes SQL queries from given file. Taken from Adminer (Apache License), modified.

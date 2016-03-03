@@ -7,15 +7,15 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Bridges\NetteDI;
+namespace Etten\Migrations\Bridges\NetteDI;
 
+use Etten;
 use Nette;
 use Nette\Utils\Validators;
-use Nextras;
-
 
 class MigrationsExtension extends Nette\DI\CompilerExtension
 {
+
 	/** @var array */
 	public $defaults = [
 		'dir' => NULL,
@@ -27,18 +27,16 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 	/** @var array */
 	protected $dbals = [
-		'dibi' => 'Nextras\Migrations\Bridges\Dibi\DibiAdapter',
-		'doctrine' => 'Nextras\Migrations\Bridges\DoctrineDbal\DoctrineAdapter',
-		'nette' => 'Nextras\Migrations\Bridges\NetteDatabase\NetteAdapter',
-		'nextras' => 'Nextras\Migrations\Bridges\NextrasDbal\NextrasAdapter',
+		'dibi' => 'Etten\Migrations\Bridges\Dibi\DibiAdapter',
+		'doctrine' => 'Etten\Migrations\Bridges\DoctrineDbal\DoctrineAdapter',
+		'nette' => 'Etten\Migrations\Bridges\NetteDatabase\NetteAdapter',
 	];
 
 	/** @var array */
 	protected $drivers = [
-		'mysql' => 'Nextras\Migrations\Drivers\MySqlDriver',
-		'pgsql' => 'Nextras\Migrations\Drivers\PgSqlDriver',
+		'mysql' => 'Etten\Migrations\Drivers\MySqlDriver',
+		'pgsql' => 'Etten\Migrations\Drivers\PgSqlDriver',
 	];
-
 
 	/**
 	 * Processes configuration data. Intended to be overridden by descendant.
@@ -58,10 +56,10 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 		$handlers = [];
 		$handlers['sql'] = $builder->addDefinition($this->prefix('sqlHandler'))
-			->setClass('Nextras\Migrations\Extensions\SqlHandler')
+			->setClass('Etten\Migrations\Extensions\SqlHandler')
 			->setArguments([$driver]);
 		$handlers['php'] = $builder->addDefinition($this->prefix('phpHandler'))
-			->setClass('Nextras\Migrations\Extensions\PhpHandler')
+			->setClass('Etten\Migrations\Extensions\PhpHandler')
 			->setArguments($config['phpParams']);
 
 		foreach ($config['handlers'] as $extension => $handler) {
@@ -70,24 +68,23 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 
 		$params = [$driver, $config['dir'], $handlers];
-		$builder->addExcludedClasses(['Nextras\Migrations\Bridges\SymfonyConsole\BaseCommand']);
+		$builder->addExcludedClasses(['Etten\Migrations\Bridges\SymfonyConsole\BaseCommand']);
 
 		$builder->addDefinition($this->prefix('continueCommand'))
-			->setClass('Nextras\Migrations\Bridges\SymfonyConsole\ContinueCommand')
+			->setClass('Etten\Migrations\Bridges\SymfonyConsole\ContinueCommand')
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 
 		$builder->addDefinition($this->prefix('createCommand'))
-			->setClass('Nextras\Migrations\Bridges\SymfonyConsole\CreateCommand')
+			->setClass('Etten\Migrations\Bridges\SymfonyConsole\CreateCommand')
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 
 		$builder->addDefinition($this->prefix('resetCommand'))
-			->setClass('Nextras\Migrations\Bridges\SymfonyConsole\ResetCommand')
+			->setClass('Etten\Migrations\Bridges\SymfonyConsole\ResetCommand')
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 	}
-
 
 	private function getDriver($driver, $dbal)
 	{
@@ -96,17 +93,16 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		if ($factory) {
 			return $this->getContainerBuilder()
 				->addDefinition($this->prefix('driver'))
-				->setClass('Nextras\Migrations\IDriver')
+				->setClass('Etten\Migrations\IDriver')
 				->setFactory($factory);
 
 		} elseif ($driver === NULL) {
-			return '@Nextras\Migrations\IDriver';
+			return '@Etten\Migrations\IDriver';
 
 		} else {
-			throw new Nextras\Migrations\LogicException('Invalid driver value.');
+			throw new Etten\Migrations\LogicException('Invalid driver value.');
 		}
 	}
-
 
 	private function getDriverFactory($driver, $dbal)
 	{
@@ -121,7 +117,6 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
-
 	private function getDbal($dbal)
 	{
 		$factory = $this->getDbalFactory($dbal);
@@ -129,17 +124,16 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		if ($factory) {
 			return $this->getContainerBuilder()
 				->addDefinition($this->prefix('dbal'))
-				->setClass('Nextras\Migrations\IDbal')
+				->setClass('Etten\Migrations\IDbal')
 				->setFactory($factory);
 
 		} elseif ($dbal === NULL) {
-			return '@Nextras\Migrations\IDbal';
+			return '@Etten\Migrations\IDbal';
 
 		} else {
-			throw new Nextras\Migrations\LogicException('Invalid dbal value');
+			throw new Etten\Migrations\LogicException('Invalid dbal value');
 		}
 	}
-
 
 	private function getDbalFactory($dbal)
 	{

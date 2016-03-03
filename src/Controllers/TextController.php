@@ -7,11 +7,11 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Controllers;
+namespace Etten\Migrations\Controllers;
 
-use Nextras\Migrations\Printers\TextPrinter;
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\IDriver;
+use Etten\Migrations\Printers\TextPrinter;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\IDriver;
 
 class TextController extends BaseController
 {

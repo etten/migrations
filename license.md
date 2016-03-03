@@ -1,7 +1,7 @@
 New BSD License
 ---------------
 
-Copyright (c) 2016 Jaroslav Hranička <hranicka@outlook.com>, ArtFocus
+Copyright (c) 2016 Jaroslav Hranička <hranicka@outlook.com>
 
 Copyright (c) 2013 Nextras contributors
 

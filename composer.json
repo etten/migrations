@@ -1,32 +1,37 @@
 {
-	"name": "artfocus/migrations",
-	"description": "Database migrations runner",
-	"type": "library",
-	"license": "BSD-3-Clause",
-	"require": {
-		"php": ">=5.6"
-	},
-	"require-dev": {
-		"dibi/dibi": "~2.3",
-		"doctrine/dbal": "~2.5",
-		"nette/database": "~2.2",
-		"nette/di": "~2.3",
-		"nette/tester": "~1.4",
-		"nette/utils": "~2.3",
-		"nextras/dbal": "@dev",
-		"mockery/mockery": "~0.9",
-		"symfony/console": "~2.6",
-		"ext-openssl": "*"
-	},
-	"suggest": {
-		"dibi/dibi": "to use DibiAdapter",
-		"nette/database": "to use NetteAdapter",
-		"nextras/dbal": "to use NextrasAdapter",
-		"doctrine/dbal": "to use DoctrineAdapter",
-		"symfony/console": "to use Symfony commands"
-	},
-	"autoload": {
-		"psr-4": { "Nextras\\Migrations\\": "src/" },
-		"classmap": ["src/exceptions.php", "src/deprecated"]
-	}
+    "name": "etten/migrations",
+    "description": "Database migrations runner",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "nette/tester": "~1.4",
+        "mockery/mockery": "~0.9",
+        "squizlabs/php_codesniffer": "^2.5",
+        "etten/codestyle": "^1.0",
+        "dibi/dibi": "~2.3",
+        "doctrine/dbal": "~2.5",
+        "nette/database": "~2.2",
+        "nette/di": "~2.3",
+        "nette/utils": "~2.3",
+        "nextras/dbal": "@dev",
+        "symfony/console": "~2.6",
+        "ext-openssl": "*"
+    },
+    "suggest": {
+        "dibi/dibi": "to use DibiAdapter",
+        "nette/database": "to use NetteAdapter",
+        "nextras/dbal": "to use NextrasAdapter",
+        "doctrine/dbal": "to use DoctrineAdapter",
+        "symfony/console": "to use Symfony commands"
+    },
+    "autoload": {
+        "psr-4": {
+            "Etten\\Migrations\\": "src/"
+        },
+        "classmap": [
+            "src/exceptions.php", "src/deprecated"
+        ]
+    }
 }

@@ -7,16 +7,15 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Bridges\SymfonyConsole;
+namespace Etten\Migrations\Bridges\SymfonyConsole;
 
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\Extensions;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\IPrinter;
-use Nextras\Migrations\Printers\Console;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\Group;
+use Etten\Migrations\Extensions;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\IPrinter;
+use Etten\Migrations\Printers\Console;
 use Symfony\Component\Console\Command\Command;
-
 
 abstract class BaseCommand extends Command
 {
@@ -29,11 +28,10 @@ abstract class BaseCommand extends Command
 	/** @var array */
 	private $extensionHandlers;
 
-
 	/**
 	 * @param  IDriver $driver
-	 * @param  string  $dir
-	 * @param  array   $extensionHandlers
+	 * @param  string $dir
+	 * @param  array $extensionHandlers
 	 */
 	public function __construct(IDriver $driver, $dir, $extensionHandlers = [])
 	{
@@ -43,10 +41,9 @@ abstract class BaseCommand extends Command
 		$this->extensionHandlers = $extensionHandlers;
 	}
 
-
 	/**
 	 * @param  string $mode Runner::MODE_*
-	 * @param  bool   $withDummy include dummy data?
+	 * @param  bool $withDummy include dummy data?
 	 * @return void
 	 */
 	protected function runMigrations($mode, $withDummy)
@@ -64,7 +61,6 @@ abstract class BaseCommand extends Command
 
 		$runner->run($mode);
 	}
-
 
 	/**
 	 * @param  bool $withDummy
@@ -93,7 +89,6 @@ abstract class BaseCommand extends Command
 		return [$structures, $basicData, $dummyData];
 	}
 
-
 	/**
 	 * @return array (extension => IExtensionHandler)
 	 */
@@ -101,7 +96,6 @@ abstract class BaseCommand extends Command
 	{
 		return $this->extensionHandlers;
 	}
-
 
 	/**
 	 * @return IPrinter

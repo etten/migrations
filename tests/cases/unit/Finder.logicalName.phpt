@@ -4,11 +4,11 @@
  * @testCase
  */
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
 use Mockery;
-use Nextras\Migrations\Engine\Finder;
-use Nextras\Migrations\Entities\Group;
+use Etten\Migrations\Engine\Finder;
+use Etten\Migrations\Entities\Group;
 use Tester;
 use Tester\Assert;
 
@@ -28,7 +28,7 @@ class FinderLogicalNameTest extends Tester\TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->finder = Mockery::mock('Nextras\Migrations\Engine\Finder')
+		$this->finder = Mockery::mock('Etten\Migrations\Engine\Finder')
 			->shouldAllowMockingProtectedMethods()
 			->shouldDeferMissing()
 			->shouldReceive('getChecksum')

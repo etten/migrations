@@ -7,11 +7,11 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Entities;
-
+namespace Etten\Migrations\Entities;
 
 class Group
 {
+
 	/** @var string */
 	public $name;
 

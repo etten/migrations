@@ -7,10 +7,9 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations;
+namespace Etten\Migrations;
 
-use Nextras\Migrations\Entities\File;
-
+use Etten\Migrations\Entities\File;
 
 /**
  * @author Petr Procházka
@@ -18,10 +17,11 @@ use Nextras\Migrations\Entities\File;
  */
 interface IExtensionHandler
 {
+
 	/**
 	 * @param  File $file
 	 * @return int number of queries
 	 */
-	function execute(File $file);
+	public function execute(File $file);
 
 }

@@ -7,17 +7,17 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Printers;
+namespace Etten\Migrations\Printers;
 
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\File;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\File;
 
 class FullTextPrinter extends TextPrinter
 {
 
 	public function printIntro($mode)
 	{
-		$this->output('Nextras Migrations');
+		$this->output('Etten Migrations');
 		if ($mode === Runner::MODE_RESET) {
 			$this->output('RESET: All tables, views and data has been destroyed!');
 		} else {

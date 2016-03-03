@@ -10,11 +10,10 @@
 namespace Nextras\Migrations\Bridges\NextrasDbal;
 
 use DateTime;
+use Etten\Migrations\IDbal;
 use Nextras\Dbal\Connection;
 use Nextras\Dbal\Drivers\IDriver;
 use Nextras\Dbal\Result\Row;
-use Nextras\Migrations\IDbal;
-
 
 class NextrasAdapter implements IDbal
 {
@@ -24,7 +23,6 @@ class NextrasAdapter implements IDbal
 	/** @var bool */
 	private $oldDriver;
 
-
 	public function __construct(Connection $connection)
 	{
 		$this->conn = $connection;
@@ -32,22 +30,21 @@ class NextrasAdapter implements IDbal
 		$this->oldDriver = method_exists($connection->getDriver(), 'convertToSql');
 	}
 
-
 	public function query($sql)
 	{
 		return array_map(
-			function (Row $row) { return $row->toArray(); },
+			function (Row $row) {
+				return $row->toArray();
+			},
 			iterator_to_array($this->conn->query('%raw', $sql))
 		);
 	}
-
 
 	public function exec($sql)
 	{
 		$this->conn->query('%raw', $sql);
 		return $this->conn->getAffectedRows();
 	}
-
 
 	public function escapeString($value)
 	{
@@ -58,12 +55,10 @@ class NextrasAdapter implements IDbal
 		}
 	}
 
-
 	public function escapeInt($value)
 	{
-		return (int) $value;
+		return (int)$value;
 	}
-
 
 	public function escapeBool($value)
 	{
@@ -74,7 +69,6 @@ class NextrasAdapter implements IDbal
 		}
 	}
 
-
 	public function escapeDateTime(DateTime $value)
 	{
 		if (!$this->oldDriver) {
@@ -83,7 +77,6 @@ class NextrasAdapter implements IDbal
 			return $this->conn->getDriver()->convertToSql($value, IDriver::TYPE_DATETIME);
 		}
 	}
-
 
 	public function escapeIdentifier($value)
 	{

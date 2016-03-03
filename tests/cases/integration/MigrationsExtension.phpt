@@ -4,16 +4,15 @@
  * @testCase
  */
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
+use Etten\Migrations\Bridges\NetteDI\MigrationsExtension;
 use Nette;
-use Nextras\Migrations\Bridges\NetteDI\MigrationsExtension;
 use Tester;
 use Tester\Assert;
 use Tester\TestCase;
 
 require __DIR__ . '/../../bootstrap.php';
-
 
 class MigrationsExtensionTest extends TestCase
 {
@@ -35,11 +34,10 @@ class MigrationsExtensionTest extends TestCase
 		/** @var Nette\DI\Container $dic */
 		$dic = new $className;
 		Assert::type('Nette\DI\Container', $dic);
-		Assert::type('Nextras\Migrations\Drivers\MySqlDriver', $dic->getByType('Nextras\Migrations\IDriver'));
+		Assert::type('Etten\Migrations\Drivers\MySqlDriver', $dic->getByType('Etten\Migrations\IDriver'));
 		Assert::count(3, $dic->findByType('Symfony\Component\Console\Command\Command'));
 		Assert::count(3, $dic->findByTag('kdyby.console.command'));
 	}
-
 
 	public function provideData()
 	{

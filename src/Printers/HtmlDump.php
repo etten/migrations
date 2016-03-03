@@ -7,25 +7,24 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Printers;
+namespace Etten\Migrations\Printers;
 
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\Exception;
-use Nextras\Migrations\IPrinter;
-
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Exception;
+use Etten\Migrations\IPrinter;
 
 /**
  * @author Petr Procházka
  */
 class HtmlDump implements IPrinter
 {
+
 	/** @var int number of migrations to be executed */
 	private $count;
 
 	/** @var int order of last executed migration */
 	private $index;
-
 
 	public function printIntro($mode)
 	{
@@ -35,7 +34,6 @@ class HtmlDump implements IPrinter
 			$this->output('     CONTINUE: Running only new migrations.');
 		}
 	}
-
 
 	public function printToExecute(array $toExecute)
 	{
@@ -49,7 +47,6 @@ class HtmlDump implements IPrinter
 		$this->index = 0;
 	}
 
-
 	public function printExecute(File $file, $count, $time)
 	{
 		$format = '%0' . strlen($this->count) . 'd';
@@ -60,12 +57,10 @@ class HtmlDump implements IPrinter
 		));
 	}
 
-
 	public function printDone()
 	{
 		$this->output('OK', 'success');
 	}
-
 
 	public function printError(Exception $e)
 	{
@@ -73,15 +68,13 @@ class HtmlDump implements IPrinter
 		throw $e;
 	}
 
-
 	public function printSource($code)
 	{
 		$this->output($code);
 	}
 
-
 	/**
-	 * @param  string $s     HTML string
+	 * @param  string $s HTML string
 	 * @param  string $class
 	 * @return void
 	 */

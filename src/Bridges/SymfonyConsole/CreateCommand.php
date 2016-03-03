@@ -7,16 +7,15 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Bridges\SymfonyConsole;
+namespace Etten\Migrations\Bridges\SymfonyConsole;
 
+use Etten;
+use Etten\Migrations\Extensions;
 use Nette;
 use Nette\Utils\Strings;
-use Nextras;
-use Nextras\Migrations\Extensions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 
 class CreateCommand extends BaseCommand
 {
@@ -28,7 +27,6 @@ class CreateCommand extends BaseCommand
 		$this->addArgument('type', InputArgument::REQUIRED, 's(tructures), b(asic-data) or d(ummy-data');
 		$this->addArgument('label', InputArgument::REQUIRED, 'short description');
 	}
-
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
@@ -50,7 +48,6 @@ class CreateCommand extends BaseCommand
 		$output->writeln($file);
 	}
 
-
 	/**
 	 * @param  string $type
 	 * @return string
@@ -63,9 +60,8 @@ class CreateCommand extends BaseCommand
 			}
 		}
 
-		throw new Nextras\Migrations\LogicException("Unknown type '$type' given, expected on of 's', 'b' or 'd'.");
+		throw new Etten\Migrations\LogicException("Unknown type '$type' given, expected on of 's', 'b' or 'd'.");
 	}
-
 
 	/**
 	 * @param  string $label
@@ -75,7 +71,6 @@ class CreateCommand extends BaseCommand
 	{
 		return date('Y-m-d-His-') . Strings::webalize($label, '.') . '.sql';
 	}
-
 
 	/**
 	 * @param  string $dir

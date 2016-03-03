@@ -7,22 +7,21 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Extensions;
+namespace Etten\Migrations\Extensions;
 
-use Nextras\Migrations\Entities\File;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\IExtensionHandler;
-use Nextras\Migrations\LogicException;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\IDriver;
+use Etten\Migrations\IExtensionHandler;
+use Etten\Migrations\LogicException;
 
 /**
  * @author Jan Tvrdík
  */
 class SqlHandler implements IExtensionHandler
 {
+
 	/** @var IDriver */
 	private $driver;
-
 
 	/**
 	 * @param IDriver $driver
@@ -31,7 +30,6 @@ class SqlHandler implements IExtensionHandler
 	{
 		$this->driver = $driver;
 	}
-
 
 	public function execute(File $sql)
 	{

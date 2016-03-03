@@ -7,14 +7,14 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Controllers;
+namespace Etten\Migrations\Controllers;
 
-use Nextras\Migrations\Engine;
-use Nextras\Migrations\Printers;
-
+use Etten\Migrations\Engine;
+use Etten\Migrations\Printers;
 
 class ConsoleController extends BaseController
 {
+
 	public function run()
 	{
 		$this->processArguments();
@@ -22,7 +22,6 @@ class ConsoleController extends BaseController
 		$this->registerGroups();
 		$this->runner->run($this->mode);
 	}
-
 
 	private function printHeader()
 	{
@@ -33,7 +32,6 @@ class ConsoleController extends BaseController
 			printf("------------------------------------------------------------\n");
 		}
 	}
-
 
 	private function processArguments()
 	{
@@ -94,9 +92,9 @@ class ConsoleController extends BaseController
 		}
 	}
 
-
 	protected function createPrinter()
 	{
 		return new Printers\Console();
 	}
+
 }

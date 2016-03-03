@@ -1,29 +1,26 @@
 <?php
 
-namespace NextrasTests\Migrations;
+namespace Etten\Migrations;
 
 use DibiConnection;
 use Doctrine;
+use Etten;
+use Etten\Migrations\Bridges\Dibi\DibiAdapter;
+use Etten\Migrations\Bridges\DoctrineDbal\DoctrineAdapter;
+use Etten\Migrations\Bridges\NetteDatabase\NetteAdapter;
+use Etten\Migrations\Engine\Runner;
+use Etten\Migrations\Entities\Group;
 use Nette;
-use Nextras;
-use Nextras\Migrations\Bridges\Dibi\DibiAdapter;
-use Nextras\Migrations\Bridges\DoctrineDbal\DoctrineAdapter;
-use Nextras\Migrations\Bridges\NetteDatabase\NetteAdapter;
-use Nextras\Migrations\Bridges\NextrasDbal\NextrasAdapter;
-use Nextras\Migrations\Engine\Runner;
-use Nextras\Migrations\Entities\Group;
-use Nextras\Migrations\IDbal;
-use Nextras\Migrations\IDriver;
-use Nextras\Migrations\IPrinter;
 use Tester\Environment;
 use Tester\TestCase;
 
-
 abstract class IntegrationTestCase extends TestCase
 {
+
 	/** @var IDbal */
 	protected $dbal;
 
+	/** @var IDriver */
 	/** @var IDriver */
 	protected $driver;
 
@@ -38,7 +35,6 @@ abstract class IntegrationTestCase extends TestCase
 
 	/** @var string */
 	protected $fixtureDir;
-
 
 	protected function setUp()
 	{
@@ -69,7 +65,6 @@ abstract class IntegrationTestCase extends TestCase
 		}
 	}
 
-
 	protected function tearDown()
 	{
 		parent::tearDown();
@@ -77,7 +72,6 @@ abstract class IntegrationTestCase extends TestCase
 		$cleanupDb = \Closure::bind($cleanupDb, $this);
 		$cleanupDb();
 	}
-
 
 	protected function getGroups($dir)
 	{
@@ -102,17 +96,15 @@ abstract class IntegrationTestCase extends TestCase
 		return [$structures, $basicData, $dummyData];
 	}
 
-
 	/**
 	 * @return array (extension => IExtensionHandler)
 	 */
 	protected function getExtensionHandlers()
 	{
 		return [
-			'sql' => new Nextras\Migrations\Extensions\SqlHandler($this->driver, $this->dbal),
+			'sql' => new Etten\Migrations\Extensions\SqlHandler($this->driver, $this->dbal),
 		];
 	}
-
 
 	/**
 	 * @param  array $options
@@ -173,7 +165,6 @@ abstract class IntegrationTestCase extends TestCase
 		}
 	}
 
-
 	/**
 	 * @param  array $name
 	 * @param  IDbal $dbal
@@ -183,13 +174,12 @@ abstract class IntegrationTestCase extends TestCase
 	{
 		switch ($name) {
 			case 'mysql':
-				return new Nextras\Migrations\Drivers\MySqlDriver($dbal, 'm');
+				return new Etten\Migrations\Drivers\MySqlDriver($dbal, 'm');
 
 			case 'pgsql':
-				return new Nextras\Migrations\Drivers\PgSqlDriver($dbal, 'm', $this->dbName);
+				return new Etten\Migrations\Drivers\PgSqlDriver($dbal, 'm', $this->dbName);
 		}
 	}
-
 
 	/**
 	 * @return IPrinter

@@ -7,116 +7,102 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations;
+namespace Etten\Migrations;
 
-use Nextras\Migrations\Entities\Migration;
-use Nextras\Migrations\Entities\File;
-
+use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Migration;
 
 /**
  * @author Jan Skrasek
  */
 interface IDriver
 {
+
 	/** @const shared lock identifier */
-	const LOCK_NAME = 'Nextras.Migrations';
+	const LOCK_NAME = 'Etten.Migrations';
 
 	/**
 	 * Setups the connection, such as encoding, default schema, etc.
 	 */
-	function setupConnection();
-
+	public function setupConnection();
 
 	/**
 	 * Drops the database / schema. Should removes all db objects (tables, views, procedures, sequences, ...)
 	 * @return mixed
 	 */
-	function emptyDatabase();
-
+	public function emptyDatabase();
 
 	/**
 	 * Loads and executes SQL queries from given file.
 	 * @param  string $path
 	 * @return int number of executed queries
 	 */
-	function loadFile($path);
-
+	public function loadFile($path);
 
 	/**
 	 * Starts transaction.
 	 */
-	function beginTransaction();
-
+	public function beginTransaction();
 
 	/**
 	 * Commit transaction.
 	 */
-	function commitTransaction();
-
+	public function commitTransaction();
 
 	/**
 	 * Rollback transaction.
 	 */
-	function rollbackTransaction();
-
+	public function rollbackTransaction();
 
 	/**
 	 * Locks database for running migrations.
 	 */
-	function lock();
-
+	public function lock();
 
 	/**
 	 * Unlocks database.
 	 */
-	function unlock();
-
+	public function unlock();
 
 	/**
 	 * Creates migration table.
 	 */
-	function createTable();
-
+	public function createTable();
 
 	/**
 	 * Drop migration table.
 	 */
-	function dropTable();
-
+	public function dropTable();
 
 	/**
 	 * Inserts migration info into migration table.
 	 * @param  Migration $migration
 	 */
-	function insertMigration(Migration $migration);
-
+	public function insertMigration(Migration $migration);
 
 	/**
 	 * Updated migration as executed.
 	 * @param  Migration $migration
 	 */
-	function markMigrationAsReady(Migration $migration);
-
+	public function markMigrationAsReady(Migration $migration);
 
 	/**
 	 * Returns all migrations stored in migration table sorted by time.
 	 * @return Migration[]
 	 */
-	function getAllMigrations();
-
+	public function getAllMigrations();
 
 	/**
 	 * Returns source code for migration table initialization.
 	 * @return string
 	 */
-	function getInitTableSource();
-
+	public function getInitTableSource();
 
 	/**
 	 * Returns source code for migration table data initialization.
 	 * @param  File[] $files
 	 * @return string
 	 */
-	function getInitMigrationsSource(array $files);
+	public function getInitMigrationsSource(array $files);
 
 }

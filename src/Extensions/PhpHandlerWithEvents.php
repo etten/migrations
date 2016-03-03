@@ -7,9 +7,9 @@
  * @link       https://github.com/nextras/migrations
  */
 
-namespace Nextras\Migrations\Extensions;
+namespace Etten\Migrations\Extensions;
 
-use Nextras\Migrations\Entities\File;
+use Etten\Migrations\Entities\File;
 
 class PhpHandlerWithEvents extends PhpHandler
 {

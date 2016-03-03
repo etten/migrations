@@ -1,16 +1,12 @@
-[![Build Status](https://travis-ci.org/artfocus/migrations.svg?branch=master)](https://travis-ci.org/artfocus/migrations)
+# Etten\Migrations
 
-Artfocus\Migrations
-==================
-
-For more information read **[documentation](http://nextras.cz/migrations/docs)**.
+Based on **[Nextras\Migrations](https://github.com/nextras/migrations)**.
 
 **Supported databases:**
 * PostgreSQL
 * MySQL
 
 **Supported DBALs:**
-* [Nextras DBAL](https://github.com/nextras/dbal)
 * [Nette Database](https://github.com/nette/database)
 * [Doctrine DBAL](https://github.com/doctrine/dbal)
 * [dibi](https://github.com/dg/dibi)
