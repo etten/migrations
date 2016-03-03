@@ -20,7 +20,7 @@ use Etten\Migrations\IPrinter;
 class DevNull implements IPrinter
 {
 
-	public function printIntro($mode)
+	public function printIntro(string $mode)
 	{
 	}
 
@@ -28,7 +28,7 @@ class DevNull implements IPrinter
 	{
 	}
 
-	public function printExecute(File $file, $count, $time)
+	public function printExecute(File $file, int $count, float $time)
 	{
 	}
 
@@ -40,7 +40,7 @@ class DevNull implements IPrinter
 	{
 	}
 
-	public function printSource($code)
+	public function printSource(string $code)
 	{
 	}
 

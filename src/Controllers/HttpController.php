@@ -48,7 +48,8 @@ class HttpController extends BaseController
 						} else {
 							$error = sprintf(
 								"Unknown group '%s', the following groups are registered: '%s'",
-								$group, implode('\', \'', array_keys($this->groups))
+								$group,
+								implode('\', \'', array_keys($this->groups))
 							);
 							goto error;
 						}
@@ -126,7 +127,7 @@ class HttpController extends BaseController
 
 		$this->printHeader();
 		echo "<h1>Migrations – $groups</h1>\n";
-		echo "<div class=\"output\">";
+		echo '<div class="output">';
 		$this->runner->run($this->mode);
 		echo "</div>\n";
 	}
@@ -141,7 +142,7 @@ class HttpController extends BaseController
 	{
 		$this->printHeader();
 		echo "<h1>Migrations – error</h1>\n";
-		echo "<div class=\"error-message\">" . nl2br(htmlspecialchars($this->error), FALSE) . "</div>\n";
+		echo '<div class="error-message">' . nl2br(htmlspecialchars($this->error), FALSE) . "</div>\n";
 	}
 
 	private function printHeader()

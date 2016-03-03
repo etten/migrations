@@ -25,7 +25,7 @@ class NetteAdapter implements IDbal
 		$this->conn = $ndb;
 	}
 
-	public function query($sql)
+	public function query(string $sql)
 	{
 		return array_map(
 			function ($row) {
@@ -35,22 +35,22 @@ class NetteAdapter implements IDbal
 		);
 	}
 
-	public function exec($sql)
+	public function exec(string $sql)
 	{
 		return $this->conn->query($sql)->getRowCount();
 	}
 
-	public function escapeString($value)
+	public function escapeString(string $value)
 	{
 		return $this->conn->quote($value, PDO::PARAM_STR);
 	}
 
-	public function escapeInt($value)
+	public function escapeInt(int $value)
 	{
 		return $this->conn->quote($value, PDO::PARAM_INT);
 	}
 
-	public function escapeBool($value)
+	public function escapeBool(bool $value)
 	{
 		return $this->conn->getSupplementalDriver()->formatBool($value);
 	}
@@ -60,7 +60,7 @@ class NetteAdapter implements IDbal
 		return $this->conn->getSupplementalDriver()->formatDateTime($value);
 	}
 
-	public function escapeIdentifier($value)
+	public function escapeIdentifier(string $value)
 	{
 		return $this->conn->getSupplementalDriver()->delimite($value);
 	}

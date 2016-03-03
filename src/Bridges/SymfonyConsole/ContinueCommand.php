@@ -9,15 +9,16 @@
 
 namespace Etten\Migrations\Bridges\SymfonyConsole;
 
-use Nette;
 use Etten\Migrations\Engine\Runner;
 use Etten\Migrations\Extensions;
+use Nette;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ContinueCommand extends BaseCommand
 {
+
 	protected function configure()
 	{
 		$this->setName('migrations:continue');
@@ -25,7 +26,6 @@ class ContinueCommand extends BaseCommand
 		$this->setHelp("If table 'migrations' does not exist in current database, it is created automatically.");
 		$this->addOption('production', NULL, InputOption::VALUE_NONE, 'Will not import dummy data');
 	}
-
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{

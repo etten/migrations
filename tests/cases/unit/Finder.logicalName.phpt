@@ -6,24 +6,22 @@
 
 namespace Etten\Migrations;
 
-use Mockery;
 use Etten\Migrations\Engine\Finder;
 use Etten\Migrations\Entities\Group;
+use Mockery;
 use Tester;
 use Tester\Assert;
 
-
 require __DIR__ . '/../../bootstrap.php';
-
 
 class FinderLogicalNameTest extends Tester\TestCase
 {
+
 	/** @var Finder|Mockery\MockInterface */
 	private $finder;
 
 	/** @var Group[] */
 	private $groups;
-
 
 	protected function setUp()
 	{
@@ -42,7 +40,6 @@ class FinderLogicalNameTest extends Tester\TestCase
 		$this->groups = [$group];
 	}
 
-
 	public function testSimple()
 	{
 		$this->finder->shouldReceive('getItems')
@@ -59,7 +56,6 @@ class FinderLogicalNameTest extends Tester\TestCase
 		Assert::same('2015-03-06.sql', $files[1]->name);
 		Assert::same('2015-07-06.sql', $files[2]->name);
 	}
-
 
 	public function testComplex()
 	{
@@ -81,8 +77,8 @@ class FinderLogicalNameTest extends Tester\TestCase
 		Assert::same('2015-03-06.sql', $files[1]->name);
 		Assert::same('2015-03-04.sql', $files[2]->name);
 	}
-}
 
+}
 
 $test = new FinderLogicalNameTest();
 $test->run();

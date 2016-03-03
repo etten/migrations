@@ -16,6 +16,7 @@ require __DIR__ . '/../../bootstrap.php';
 
 class SecondRunTest extends IntegrationTestCase
 {
+
 	public function testReset()
 	{
 		$this->driver->loadFile($this->fixtureDir . '/3ok.sql');

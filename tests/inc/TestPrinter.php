@@ -19,7 +19,7 @@ class TestPrinter extends Console
 		$this->useColors = FALSE;
 	}
 
-	protected function output($s, $color = NULL)
+	protected function output(string $s, $color = NULL)
 	{
 		$this->lines[] = preg_replace('#; \d+\.\d+ ms#', '; XX ms', $s);
 		$this->out .= "$s\n";

@@ -53,7 +53,7 @@ class Finder
 	 * @param  string $path relative path to group directory
 	 * @return string
 	 */
-	protected function getName($path)
+	protected function getName(string $path)
 	{
 		$parts = explode('/', $path);
 		$dirName = implode('-', array_slice($parts, 0, -1));
@@ -78,7 +78,9 @@ class Finder
 				if ($fileExt !== NULL) {
 					throw new LogicException(sprintf(
 						'Finder: Extension of "%s" is ambiguous, both "%s" and "%s" can be used.',
-						$file->group->directory . '/' . $file->name, $fileExt, $extension
+						$file->group->directory . '/' . $file->name,
+						$fileExt,
+						$extension
 					));
 
 				} else {
@@ -90,7 +92,8 @@ class Finder
 		if ($fileExt === NULL) {
 			throw new LogicException(sprintf(
 				'Finder: No extension matched "%s". Supported extensions are %s.',
-				$file->group->directory . '/' . $file->name, '"' . implode('", "', $extensions) . '"'
+				$file->group->directory . '/' . $file->name,
+				'"' . implode('", "', $extensions) . '"'
 			));
 		}
 
@@ -116,7 +119,7 @@ class Finder
 	 * @return string[]
 	 * @throws IOException
 	 */
-	protected function getFilesRecursive($dir)
+	protected function getFilesRecursive(string $dir)
 	{
 		$items = $this->getItems($dir);
 		foreach ($items as $i => $item) {
@@ -141,7 +144,7 @@ class Finder
 	 * @return array
 	 * @throws IOException
 	 */
-	protected function getItems($dir)
+	protected function getItems(string $dir)
 	{
 		$items = @scandir($dir); // directory may not exist
 		if ($items === FALSE) {

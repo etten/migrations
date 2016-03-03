@@ -11,24 +11,30 @@ namespace Etten\Migrations;
 
 interface Exception
 {
+
 }
 
 abstract class RuntimeException extends \RuntimeException implements Exception
 {
+
 }
 
 class LogicException extends \LogicException implements Exception
 {
+
 }
 
 class ExecutionException extends RuntimeException
 {
+
 }
 
 class IOException extends RuntimeException
 {
+
 }
 
 class LockException extends RuntimeException
 {
+
 }

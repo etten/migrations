@@ -19,6 +19,7 @@ use Symfony\Component\Console\Command\Command;
 
 abstract class BaseCommand extends Command
 {
+
 	/** @var IDriver */
 	private $driver;
 
@@ -33,7 +34,7 @@ abstract class BaseCommand extends Command
 	 * @param  string $dir
 	 * @param  array $extensionHandlers
 	 */
-	public function __construct(IDriver $driver, $dir, $extensionHandlers = [])
+	public function __construct(IDriver $driver, string $dir, $extensionHandlers = [])
 	{
 		parent::__construct();
 		$this->driver = $driver;
@@ -46,7 +47,7 @@ abstract class BaseCommand extends Command
 	 * @param  bool $withDummy include dummy data?
 	 * @return void
 	 */
-	protected function runMigrations($mode, $withDummy)
+	protected function runMigrations(string $mode, bool $withDummy)
 	{
 		$printer = $this->getPrinter();
 		$runner = new Runner($this->driver, $printer);

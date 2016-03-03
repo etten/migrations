@@ -65,7 +65,7 @@ class Runner
 	 * @param  IExtensionHandler $handler
 	 * @return self
 	 */
-	public function addExtensionHandler($extension, IExtensionHandler $handler)
+	public function addExtensionHandler(string $extension, IExtensionHandler $handler)
 	{
 		if (isset($this->extensionsHandlers[$extension])) {
 			throw new LogicException("Extension '$extension' has already been defined.");
@@ -79,7 +79,7 @@ class Runner
 	 * @param  string $mode self::MODE_CONTINUE|self::MODE_RESET|self::MODE_INIT
 	 * @return void
 	 */
-	public function run($mode = self::MODE_CONTINUE)
+	public function run(string $mode = self::MODE_CONTINUE)
 	{
 		if ($mode === self::MODE_INIT) {
 			$this->printer->printSource($this->driver->getInitTableSource() . "\n");
@@ -124,7 +124,7 @@ class Runner
 	 * @param  string $name
 	 * @return IExtensionHandler
 	 */
-	public function getExtension($name)
+	public function getExtension(string $name)
 	{
 		if (!isset($this->extensionsHandlers[$name])) {
 			throw new LogicException("Extension '$name' not found.");

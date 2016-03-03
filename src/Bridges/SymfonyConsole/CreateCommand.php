@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends BaseCommand
 {
+
 	protected function configure()
 	{
 		$this->setName('migrations:create');
@@ -52,7 +53,7 @@ class CreateCommand extends BaseCommand
 	 * @param  string $type
 	 * @return string
 	 */
-	private function getDirectory($type)
+	private function getDirectory(string $type)
 	{
 		foreach ($this->getGroups(TRUE) as $group) {
 			if (Strings::startsWith($group->name, $type)) {
@@ -67,7 +68,7 @@ class CreateCommand extends BaseCommand
 	 * @param  string $label
 	 * @return string
 	 */
-	private function getFileName($label)
+	private function getFileName(string $label)
 	{
 		return date('Y-m-d-His-') . Strings::webalize($label, '.') . '.sql';
 	}
@@ -77,7 +78,7 @@ class CreateCommand extends BaseCommand
 	 * @param  string|NULL $found
 	 * @return bool
 	 */
-	private function hasNumericSubdirectory($dir, & $found)
+	private function hasNumericSubdirectory(string $dir, & $found)
 	{
 		$items = @scandir($dir); // directory may not exist
 		foreach ($items as $item) {

@@ -16,6 +16,7 @@ require __DIR__ . '/../../bootstrap.php';
 
 class FirstRunTest extends IntegrationTestCase
 {
+
 	public function testReset()
 	{
 		$this->runner->run(Runner::MODE_RESET);

@@ -21,7 +21,6 @@ abstract class IntegrationTestCase extends TestCase
 	protected $dbal;
 
 	/** @var IDriver */
-	/** @var IDriver */
 	protected $driver;
 
 	/** @var IPrinter|TestPrinter */

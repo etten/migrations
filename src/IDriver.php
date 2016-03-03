@@ -37,7 +37,7 @@ interface IDriver
 	 * @param  string $path
 	 * @return int number of executed queries
 	 */
-	public function loadFile($path);
+	public function loadFile(string $path);
 
 	/**
 	 * Starts transaction.

@@ -8,8 +8,8 @@ namespace Etten\Migrations;
 
 use Etten\Migrations\Engine\OrderResolver;
 use Etten\Migrations\Engine\Runner;
-use Etten\Migrations\Entities\Group;
 use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Group;
 use Etten\Migrations\Entities\Migration;
 use Mockery;
 use Tester;
@@ -17,9 +17,9 @@ use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
 
-
 class OrderResolverTest extends Tester\TestCase
 {
+
 	public function testFirstRun()
 	{
 		$resolver = new OrderResolver;
@@ -36,7 +36,6 @@ class OrderResolverTest extends Tester\TestCase
 			Runner::MODE_CONTINUE
 		));
 	}
-
 
 	public function testFirstRunTwoGroups()
 	{
@@ -57,7 +56,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testSecondRunContinue()
 	{
 		$resolver = new OrderResolver;
@@ -75,7 +73,6 @@ class OrderResolverTest extends Tester\TestCase
 			Runner::MODE_CONTINUE
 		));
 	}
-
 
 	public function testSecondRunContinueNothingToDo()
 	{
@@ -95,7 +92,6 @@ class OrderResolverTest extends Tester\TestCase
 			Runner::MODE_CONTINUE
 		));
 	}
-
 
 	public function testSecondRunContinueTwoGroups()
 	{
@@ -121,7 +117,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testSecondRunContinueDisabledGroup()
 	{
 		$resolver = new OrderResolver;
@@ -144,7 +139,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testSecondRunReset()
 	{
 		$resolver = new OrderResolver;
@@ -162,7 +156,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testRunWithDisabledGroups()
 	{
 		$groupA = $this->createGroup('structures');
@@ -178,7 +171,6 @@ class OrderResolverTest extends Tester\TestCase
 		]);
 		Tester\Environment::$checkAssertions = FALSE;
 	}
-
 
 	public function testTopologicalOrder()
 	{
@@ -198,7 +190,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testErrorRemovedFile()
 	{
 		$resolver = new OrderResolver;
@@ -217,7 +208,6 @@ class OrderResolverTest extends Tester\TestCase
 			);
 		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" is missing.');
 	}
-
 
 	public function testErrorChangedChecksum()
 	{
@@ -239,7 +229,6 @@ class OrderResolverTest extends Tester\TestCase
 		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" has been changed.');
 	}
 
-
 	public function testErrorIncompleteMigration()
 	{
 		$resolver = new OrderResolver;
@@ -259,7 +248,6 @@ class OrderResolverTest extends Tester\TestCase
 			);
 		}, 'Etten\Migrations\LogicException', 'Previously executed migration "structures/1s" did not succeed. Please fix this manually or reset the migrations.');
 	}
-
 
 	public function testNoErrorNewMigrationInTheMiddleOfExistingOnes()
 	{
@@ -281,7 +269,6 @@ class OrderResolverTest extends Tester\TestCase
 		));
 	}
 
-
 	public function testErrorMigrationDependingOnUnknownGroup()
 	{
 		$resolver = new OrderResolver;
@@ -297,7 +284,6 @@ class OrderResolverTest extends Tester\TestCase
 			);
 		}, 'Etten\Migrations\LogicException', 'Existing migrations depend on unknown group "foo".');
 	}
-
 
 	public function testErrorGroupDependingOnUnknownGroup()
 	{
@@ -315,7 +301,6 @@ class OrderResolverTest extends Tester\TestCase
 		}, 'Etten\Migrations\LogicException', 'Group "data" depends on unknown group "structures".');
 	}
 
-
 	public function testErrorDisablingRequiredGroup()
 	{
 		$resolver = new OrderResolver;
@@ -332,7 +317,6 @@ class OrderResolverTest extends Tester\TestCase
 			);
 		}, 'Etten\Migrations\LogicException', 'Group "data" depends on disabled group "structures". Please enable group "structures" to continue.');
 	}
-
 
 	public function testErrorAmbiguousLogicalName()
 	{
@@ -354,7 +338,6 @@ class OrderResolverTest extends Tester\TestCase
 		}, 'Etten\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
 	}
 
-
 	public function testErrorAmbiguousLogicalNameCyclic()
 	{
 		$resolver = new OrderResolver();
@@ -375,7 +358,6 @@ class OrderResolverTest extends Tester\TestCase
 		}, 'Etten\Migrations\LogicException', 'Unable to determine order for migrations "data/foo" and "structures/foo".');
 	}
 
-
 	private function createMigration($groupName, $fileName, $checksum = NULL, $completed = TRUE)
 	{
 		$migration = new Migration;
@@ -386,7 +368,6 @@ class OrderResolverTest extends Tester\TestCase
 		return $migration;
 	}
 
-
 	private function createFile($name, $group, $checksum = NULL)
 	{
 		$file = new File;
@@ -395,7 +376,6 @@ class OrderResolverTest extends Tester\TestCase
 		$file->checksum = $checksum ?: "$name.md5";
 		return $file;
 	}
-
 
 	private function createGroup($name, $enabled = TRUE, $deps = [])
 	{

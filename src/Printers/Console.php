@@ -35,7 +35,7 @@ class Console implements IPrinter
 		$this->useColors = $this->detectColorSupport();
 	}
 
-	public function printIntro($mode)
+	public function printIntro(string $mode)
 	{
 		$this->output('Etten Migrations');
 		if ($mode === Runner::MODE_RESET) {
@@ -55,7 +55,7 @@ class Console implements IPrinter
 		}
 	}
 
-	public function printExecute(File $file, $count, $time)
+	public function printExecute(File $file, int $count, float $time)
 	{
 		$this->output(
 			'- ' . $file->group->name . '/' . $file->name . '; '
@@ -75,7 +75,7 @@ class Console implements IPrinter
 		throw $e;
 	}
 
-	public function printSource($code)
+	public function printSource(string $code)
 	{
 		$this->output($code);
 	}
@@ -85,7 +85,7 @@ class Console implements IPrinter
 	 * @param  string $s
 	 * @param  string|NULL $color self::COLOR_*
 	 */
-	protected function output($s, $color = NULL)
+	protected function output(string $s, $color = NULL)
 	{
 		if ($color === NULL || !$this->useColors) {
 			echo "$s\n";
@@ -99,7 +99,7 @@ class Console implements IPrinter
 	 * @param  string $color
 	 * @return string
 	 */
-	protected function color($s, $color)
+	protected function color(string $s, string $color)
 	{
 		if (!$this->useColors) {
 			return $s;

@@ -16,7 +16,7 @@ use Etten\Migrations\IPrinter;
 class TextPrinter implements IPrinter
 {
 
-	public function printIntro($mode)
+	public function printIntro(string $mode)
 	{
 		// Suppress output
 	}
@@ -31,7 +31,7 @@ class TextPrinter implements IPrinter
 		}
 	}
 
-	public function printExecute(File $file, $count, $time)
+	public function printExecute(File $file, int $count, float $time)
 	{
 		// Suppress output
 	}
@@ -47,7 +47,7 @@ class TextPrinter implements IPrinter
 		throw $e;
 	}
 
-	public function printSource($code)
+	public function printSource(string $code)
 	{
 		$this->output($code);
 	}

@@ -24,27 +24,27 @@ class DoctrineAdapter implements IDbal
 		$this->conn = $conn;
 	}
 
-	public function query($sql)
+	public function query(string $sql)
 	{
 		return $this->conn->fetchAll($sql);
 	}
 
-	public function exec($sql)
+	public function exec(string $sql)
 	{
 		return $this->conn->exec($sql);
 	}
 
-	public function escapeString($value)
+	public function escapeString(string $value)
 	{
 		return $this->conn->quote($value, Doctrine\DBAL\Types\Type::STRING);
 	}
 
-	public function escapeInt($value)
+	public function escapeInt(int $value)
 	{
 		return $this->conn->quote($value, Doctrine\DBAL\Types\Type::INTEGER);
 	}
 
-	public function escapeBool($value)
+	public function escapeBool(bool $value)
 	{
 		return $this->conn->quote($value, Doctrine\DBAL\Types\Type::BOOLEAN);
 	}
@@ -54,7 +54,7 @@ class DoctrineAdapter implements IDbal
 		return $this->conn->quote($value, Doctrine\DBAL\Types\Type::DATETIME);
 	}
 
-	public function escapeIdentifier($value)
+	public function escapeIdentifier(string $value)
 	{
 		return $this->conn->quoteIdentifier($value);
 	}

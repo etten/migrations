@@ -16,10 +16,13 @@ require __DIR__ . '/../../bootstrap.php';
 
 class MigrationsExtensionTest extends TestCase
 {
+
 	/**
 	 * @dataProvider provideData
+	 * @param string $config
+	 * @throws \Exception
 	 */
-	public function testExtension($config)
+	public function testExtension(string $config)
 	{
 		$dibiConfig = parse_ini_file(__DIR__ . '/../../drivers.ini', TRUE)['mysql'];
 
@@ -50,6 +53,7 @@ class MigrationsExtensionTest extends TestCase
 			['configF'],
 		];
 	}
+
 }
 
 (new MigrationsExtensionTest)->run();

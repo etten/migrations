@@ -31,7 +31,7 @@ abstract class BaseDriver implements IDriver
 	 * @param IDbal $dbal
 	 * @param string $tableName
 	 */
-	public function __construct(IDbal $dbal, $tableName = 'migrations')
+	public function __construct(IDbal $dbal, string $tableName = 'migrations')
 	{
 		$this->dbal = $dbal;
 		$this->tableName = $dbal->escapeIdentifier($tableName);
@@ -49,7 +49,7 @@ abstract class BaseDriver implements IDriver
 	 * @param  string $path
 	 * @return int number of executed queries
 	 */
-	public function loadFile($path)
+	public function loadFile(string $path)
 	{
 		$query = @file_get_contents($path);
 		if ($query === FALSE) {
@@ -88,7 +88,7 @@ abstract class BaseDriver implements IDriver
 					$query = substr($query, $offset);
 					$offset = 0;
 				} else { // find matching quote or comment end
-					while (preg_match('(' . ($found == '/*' ? '\*/' : ($found == '[' ? ']' : (preg_match('~^-- |^#~', $found) ? "\n" : preg_quote($found) . "|\\\\."))) . '|$)s', $query, $match, PREG_OFFSET_CAPTURE, $offset)) { //! respect sql_mode NO_BACKSLASH_ESCAPES
+					while (preg_match('(' . ($found == '/*' ? '\*/' : ($found == '[' ? ']' : (preg_match('~^-- |^#~', $found) ? "\n" : preg_quote($found) . '|\\\\.'))) . '|$)s', $query, $match, PREG_OFFSET_CAPTURE, $offset)) { //! respect sql_mode NO_BACKSLASH_ESCAPES
 						$s = $match[0][0];
 						$offset = $match[0][1] + strlen($s);
 						if ($s[0] !== '\\') {

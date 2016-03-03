@@ -53,7 +53,6 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		$dbal = $this->getDbal($config['dbal']);
 		$driver = $this->getDriver($config['driver'], $dbal);
 
-
 		$handlers = [];
 		$handlers['sql'] = $builder->addDefinition($this->prefix('sqlHandler'))
 			->setClass('Etten\Migrations\Extensions\SqlHandler')
@@ -65,7 +64,6 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		foreach ($config['handlers'] as $extension => $handler) {
 			$handlers[$extension] = $handler;
 		}
-
 
 		$params = [$driver, $config['dir'], $handlers];
 		$builder->addExcludedClasses(['Etten\Migrations\Bridges\SymfonyConsole\BaseCommand']);

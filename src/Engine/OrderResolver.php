@@ -17,6 +17,7 @@ use Etten\Migrations\LogicException;
 
 class OrderResolver
 {
+
 	/**
 	 * @param  Migration[] $migrations
 	 * @param  Group[] $groups
@@ -25,7 +26,7 @@ class OrderResolver
 	 * @return File[]
 	 * @throws Exception
 	 */
-	public function resolve(array $migrations, array $groups, array $files, $mode)
+	public function resolve(array $migrations, array $groups, array $files, string $mode)
 	{
 		$groups = $this->getAssocGroups($groups);
 		$this->validateGroups($groups);
@@ -52,7 +53,8 @@ class OrderResolver
 				if (!$migration->completed) {
 					throw new LogicException(sprintf(
 						'Previously executed migration "%s/%s" did not succeed. Please fix this manually or reset the migrations.',
-						$groupName, $filename
+						$groupName,
+						$filename
 					));
 				}
 
@@ -61,7 +63,8 @@ class OrderResolver
 					if ($migration->checksum !== $file->checksum) {
 						throw new LogicException(sprintf(
 							'Previously executed migration "%s/%s" has been changed.',
-							$groupName, $filename
+							$groupName,
+							$filename
 						));
 					}
 					unset($files[$groupName][$filename]);
@@ -69,7 +72,8 @@ class OrderResolver
 				} elseif ($group->enabled) {
 					throw new LogicException(sprintf(
 						'Previously executed migration "%s/%s" is missing.',
-						$groupName, $filename
+						$groupName,
+						$filename
 					));
 				}
 			}
@@ -104,7 +108,8 @@ class OrderResolver
 					sort($names);
 					throw new LogicException(sprintf(
 						'Unable to determine order for migrations "%s" and "%s".',
-						$names[0], $names[1]
+						$names[0],
+						$names[1]
 					));
 				}
 			}
@@ -194,13 +199,16 @@ class OrderResolver
 				if (!isset($groups[$dependency])) {
 					throw new LogicException(sprintf(
 						'Group "%s" depends on unknown group "%s".',
-						$group->name, $dependency
+						$group->name,
+						$dependency
 					));
 
 				} elseif ($group->enabled && !$groups[$dependency]->enabled) {
 					throw new LogicException(sprintf(
 						'Group "%s" depends on disabled group "%s". Please enable group "%s" to continue.',
-						$group->name, $dependency, $dependency
+						$group->name,
+						$dependency,
+						$dependency
 					));
 				}
 			}

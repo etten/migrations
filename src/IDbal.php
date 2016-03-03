@@ -16,35 +16,36 @@ use DateTime;
  */
 interface IDbal
 {
+
 	/**
 	 * @param  string $sql
 	 * @return array list of rows represented by assoc. arrays
 	 */
-	public function query($sql);
+	public function query(string $sql);
 
 	/**
 	 * @param  string $sql
 	 * @return int number of affected rows
 	 */
-	public function exec($sql);
+	public function exec(string $sql);
 
 	/**
 	 * @param  string $value
 	 * @return string escaped string wrapped in quotes
 	 */
-	public function escapeString($value);
+	public function escapeString(string $value);
 
 	/**
 	 * @param  int $value
 	 * @return string
 	 */
-	public function escapeInt($value);
+	public function escapeInt(int $value);
 
 	/**
 	 * @param  bool $value
 	 * @return string
 	 */
-	public function escapeBool($value);
+	public function escapeBool(bool $value);
 
 	/**
 	 * @param  DateTime $value
@@ -56,6 +57,6 @@ interface IDbal
 	 * @param  string $value
 	 * @return string
 	 */
-	public function escapeIdentifier($value);
+	public function escapeIdentifier(string $value);
 
 }

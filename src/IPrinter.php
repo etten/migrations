@@ -16,13 +16,14 @@ use Etten\Migrations\Entities\File;
  */
 interface IPrinter
 {
+
 	/**
 	 * Print general info about mode.
 	 * - reset = Database has been wiped.
 	 * - continue = Running new migrations.
 	 * @param  string $mode
 	 */
-	public function printIntro($mode);
+	public function printIntro(string $mode);
 
 	/**
 	 * List of migrations which should be executed has been completed.
@@ -36,7 +37,7 @@ interface IPrinter
 	 * @param  int $count number of executed queries
 	 * @param  float $time elapsed time in miliseconds
 	 */
-	public function printExecute(File $file, $count, $time);
+	public function printExecute(File $file, int $count, float $time);
 
 	/**
 	 * All migrations have been successfully executed.
@@ -53,6 +54,6 @@ interface IPrinter
 	 * Prints init source code.
 	 * @param  string $code
 	 */
-	public function printSource($code);
+	public function printSource(string $code);
 
 }

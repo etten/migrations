@@ -25,29 +25,29 @@ class DibiAdapter implements IDbal
 		$this->conn = $dibi;
 	}
 
-	public function query($sql)
+	public function query(string $sql)
 	{
 		$result = $this->conn->nativeQuery($sql);
 		$result->setRowClass(NULL);
 		return $result->fetchAll();
 	}
 
-	public function exec($sql)
+	public function exec(string $sql)
 	{
 		return $this->conn->nativeQuery($sql);
 	}
 
-	public function escapeString($value)
+	public function escapeString(string $value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::TEXT);
 	}
 
-	public function escapeInt($value)
+	public function escapeInt(int $value)
 	{
 		return (int)$value;
 	}
 
-	public function escapeBool($value)
+	public function escapeBool(bool $value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::BOOL);
 	}
@@ -57,7 +57,7 @@ class DibiAdapter implements IDbal
 		return $this->conn->getDriver()->escape($value, dibi::DATETIME);
 	}
 
-	public function escapeIdentifier($value)
+	public function escapeIdentifier(string $value)
 	{
 		return $this->conn->getDriver()->escape($value, dibi::IDENTIFIER);
 	}

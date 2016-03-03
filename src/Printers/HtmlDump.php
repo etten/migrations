@@ -26,7 +26,7 @@ class HtmlDump implements IPrinter
 	/** @var int order of last executed migration */
 	private $index;
 
-	public function printIntro($mode)
+	public function printIntro(string $mode)
 	{
 		if ($mode === Runner::MODE_RESET) {
 			$this->output('     RESET: All tables, views and data has been destroyed!');
@@ -47,13 +47,18 @@ class HtmlDump implements IPrinter
 		$this->index = 0;
 	}
 
-	public function printExecute(File $file, $count, $time)
+	public function printExecute(File $file, int $count, float $time)
 	{
 		$format = '%0' . strlen($this->count) . 'd';
 		$name = htmlspecialchars($file->group->name . '/' . $file->name);
 		$this->output(sprintf(
 			$format . '/' . $format . ': <strong>%s</strong> (%d %s, %0.3f ms)',
-			++$this->index, $this->count, $name, $count, ($count === 1 ? 'query' : 'queries'), $time
+			++$this->index,
+			$this->count,
+			$name,
+			$count,
+			($count === 1 ? 'query' : 'queries'),
+			$time
 		));
 	}
 
@@ -68,7 +73,7 @@ class HtmlDump implements IPrinter
 		throw $e;
 	}
 
-	public function printSource($code)
+	public function printSource(string $code)
 	{
 		$this->output($code);
 	}
@@ -78,7 +83,7 @@ class HtmlDump implements IPrinter
 	 * @param  string $class
 	 * @return void
 	 */
-	protected function output($s, $class = 'info')
+	protected function output(string $s, string $class = 'info')
 	{
 		echo "<div class=\"$class\">$s</div>\n";
 	}

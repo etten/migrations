@@ -40,7 +40,7 @@ class PgSqlDriver extends BaseDriver implements IDriver
 	 * @param string $tableName
 	 * @param string $schema
 	 */
-	public function __construct(IDbal $dbal, $tableName = 'migrations', $schema = 'public')
+	public function __construct(IDbal $dbal, string $tableName = 'migrations', string $schema = 'public')
 	{
 		parent::__construct($dbal, $tableName);
 		$this->schema = $dbal->escapeIdentifier($schema);
@@ -118,13 +118,13 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("
 			INSERT INTO {$this->schema}.{$this->tableName}" . '
 			("group", "file", "checksum", "executed", "ready") VALUES (' .
-			$this->dbal->escapeString($migration->group) . "," .
-			$this->dbal->escapeString($migration->filename) . "," .
-			$this->dbal->escapeString($migration->checksum) . "," .
-			$this->dbal->escapeDateTime($migration->executedAt) . "," .
+			$this->dbal->escapeString($migration->group) . ',' .
+			$this->dbal->escapeString($migration->filename) . ',' .
+			$this->dbal->escapeString($migration->checksum) . ',' .
+			$this->dbal->escapeDateTime($migration->executedAt) . ',' .
 			$this->dbal->escapeBool(FALSE) .
-			")
-		");
+			')
+		');
 
 		$migration->id = (int)$this->dbal->query('SELECT CURRVAL(' . $this->primarySequence . ') AS id')[0]['id'];
 	}
@@ -134,8 +134,7 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("
 			UPDATE {$this->schema}.{$this->tableName}" . '
 			SET "ready" = TRUE
-			WHERE "id" = ' . $this->dbal->escapeInt($migration->id)
-		);
+			WHERE "id" = ' . $this->dbal->escapeInt($migration->id));
 	}
 
 	public function getAllMigrations()
@@ -179,10 +178,10 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		foreach ($files as $file) {
 			$out .= "INSERT INTO {$this->schema}.{$this->tableName} ";
 			$out .= '("group", "file", "checksum", "executed", "ready") VALUES (' .
-				$this->dbal->escapeString($file->group->name) . ", " .
-				$this->dbal->escapeString($file->name) . ", " .
-				$this->dbal->escapeString($file->checksum) . ", " .
-				$this->dbal->escapeDateTime(new DateTime('now')) . ", " .
+				$this->dbal->escapeString($file->group->name) . ', ' .
+				$this->dbal->escapeString($file->name) . ', ' .
+				$this->dbal->escapeString($file->checksum) . ', ' .
+				$this->dbal->escapeDateTime(new DateTime('now')) . ', ' .
 				$this->dbal->escapeBool(TRUE) .
 				");\n";
 		}

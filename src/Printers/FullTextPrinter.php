@@ -15,7 +15,7 @@ use Etten\Migrations\Entities\File;
 class FullTextPrinter extends TextPrinter
 {
 
-	public function printIntro($mode)
+	public function printIntro(string $mode)
 	{
 		$this->output('Etten Migrations');
 		if ($mode === Runner::MODE_RESET) {
@@ -25,7 +25,7 @@ class FullTextPrinter extends TextPrinter
 		}
 	}
 
-	public function printExecute(File $file, $count, $time)
+	public function printExecute(File $file, int $count, float $time)
 	{
 		$this->output(
 			'- ' . $file->group->name . '/' . $file->name . '; '

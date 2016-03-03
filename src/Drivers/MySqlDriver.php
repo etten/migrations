@@ -91,13 +91,13 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("
 			INSERT INTO {$this->tableName}
 			(`group`, `file`, `checksum`, `executed`, `ready`) VALUES (" .
-			$this->dbal->escapeString($migration->group) . "," .
-			$this->dbal->escapeString($migration->filename) . "," .
-			$this->dbal->escapeString($migration->checksum) . "," .
-			$this->dbal->escapeDateTime($migration->executedAt) . "," .
+			$this->dbal->escapeString($migration->group) . ',' .
+			$this->dbal->escapeString($migration->filename) . ',' .
+			$this->dbal->escapeString($migration->checksum) . ',' .
+			$this->dbal->escapeDateTime($migration->executedAt) . ',' .
 			$this->dbal->escapeBool(FALSE) .
-			")
-		");
+			')
+		');
 
 		$migration->id = (int)$this->dbal->query('SELECT LAST_INSERT_ID() AS `id`')[0]['id'];
 	}
@@ -107,8 +107,7 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("
 			UPDATE {$this->tableName}
 			SET `ready` = 1
-			WHERE `id` = " . $this->dbal->escapeInt($migration->id)
-		);
+			WHERE `id` = " . $this->dbal->escapeInt($migration->id));
 	}
 
 	public function getAllMigrations()
@@ -151,11 +150,11 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$out = '';
 		foreach ($files as $file) {
 			$out .= "INSERT INTO {$this->tableName} ";
-			$out .= "(`group`, `file`, `checksum`, `executed`, `ready`) VALUES (" .
-				$this->dbal->escapeString($file->group->name) . ", " .
-				$this->dbal->escapeString($file->name) . ", " .
-				$this->dbal->escapeString($file->checksum) . ", " .
-				$this->dbal->escapeDateTime(new DateTime('now')) . ", " .
+			$out .= '(`group`, `file`, `checksum`, `executed`, `ready`) VALUES (' .
+				$this->dbal->escapeString($file->group->name) . ', ' .
+				$this->dbal->escapeString($file->name) . ', ' .
+				$this->dbal->escapeString($file->checksum) . ', ' .
+				$this->dbal->escapeDateTime(new DateTime('now')) . ', ' .
 				$this->dbal->escapeBool(TRUE) .
 				");\n";
 		}
