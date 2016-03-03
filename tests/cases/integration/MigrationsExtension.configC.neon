@@ -1,5 +1,8 @@
 migrations:
-	dir: migrations
+	groups:
+		structures:
+			directory: /structures
+
 	driver: mysql
 
 services:

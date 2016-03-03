@@ -10,32 +10,32 @@
 namespace Etten\Migrations\Bridges\NetteDI;
 
 use Etten;
-use Nette;
+use Nette\DI;
 use Nette\Utils\Validators;
 
-class MigrationsExtension extends Nette\DI\CompilerExtension
+class MigrationsExtension extends DI\CompilerExtension
 {
 
 	/** @var array */
 	public $defaults = [
-		'dir' => NULL,
-		'phpParams' => [],
+		'groups' => [],
 		'driver' => NULL,
 		'dbal' => NULL,
 		'handlers' => [],
+		'phpParams' => [],
 	];
 
 	/** @var array */
 	protected $dbals = [
-		'dibi' => 'Etten\Migrations\Bridges\Dibi\DibiAdapter',
-		'doctrine' => 'Etten\Migrations\Bridges\DoctrineDbal\DoctrineAdapter',
-		'nette' => 'Etten\Migrations\Bridges\NetteDatabase\NetteAdapter',
+		'dibi' => Etten\Migrations\Bridges\Dibi\DibiAdapter::class,
+		'doctrine' => Etten\Migrations\Bridges\DoctrineDbal\DoctrineAdapter::class,
+		'nette' => Etten\Migrations\Bridges\NetteDatabase\NetteAdapter::class,
 	];
 
 	/** @var array */
 	protected $drivers = [
-		'mysql' => 'Etten\Migrations\Drivers\MySqlDriver',
-		'pgsql' => 'Etten\Migrations\Drivers\PgSqlDriver',
+		'mysql' => Etten\Migrations\Drivers\MySqlDriver::class,
+		'pgsql' => Etten\Migrations\Drivers\PgSqlDriver::class,
 	];
 
 	/**
@@ -45,9 +45,9 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
+
 		$config = $this->validateConfig($this->defaults);
-		Validators::assertField($config, 'dir', 'string');
-		Validators::assertField($config, 'phpParams', 'array');
+		Validators::assertField($config, 'groups', 'array');
 		Validators::assertField($config, 'handlers', 'array');
 
 		$dbal = $this->getDbal($config['dbal']);
@@ -55,31 +55,35 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 		$handlers = [];
 		$handlers['sql'] = $builder->addDefinition($this->prefix('sqlHandler'))
-			->setClass('Etten\Migrations\Extensions\SqlHandler')
+			->setClass(Etten\Migrations\Extensions\SqlHandler::class)
 			->setArguments([$driver]);
+
 		$handlers['php'] = $builder->addDefinition($this->prefix('phpHandler'))
-			->setClass('Etten\Migrations\Extensions\PhpHandler')
+			->setClass(Etten\Migrations\Extensions\PhpHandler::class)
 			->setArguments($config['phpParams']);
 
 		foreach ($config['handlers'] as $extension => $handler) {
 			$handlers[$extension] = $handler;
 		}
 
-		$params = [$driver, $config['dir'], $handlers];
-		$builder->addExcludedClasses(['Etten\Migrations\Bridges\SymfonyConsole\BaseCommand']);
+		$params = [
+			$driver,
+			$config['groups'],
+			$handlers,
+		];
 
 		$builder->addDefinition($this->prefix('continueCommand'))
-			->setClass('Etten\Migrations\Bridges\SymfonyConsole\ContinueCommand')
+			->setClass(Etten\Migrations\Bridges\SymfonyConsole\ContinueCommand::class)
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 
 		$builder->addDefinition($this->prefix('createCommand'))
-			->setClass('Etten\Migrations\Bridges\SymfonyConsole\CreateCommand')
+			->setClass(Etten\Migrations\Bridges\SymfonyConsole\CreateCommand::class)
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 
 		$builder->addDefinition($this->prefix('resetCommand'))
-			->setClass('Etten\Migrations\Bridges\SymfonyConsole\ResetCommand')
+			->setClass(Etten\Migrations\Bridges\SymfonyConsole\ResetCommand::class)
 			->setArguments($params)
 			->addTag('kdyby.console.command');
 	}
@@ -91,7 +95,7 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		if ($factory) {
 			return $this->getContainerBuilder()
 				->addDefinition($this->prefix('driver'))
-				->setClass('Etten\Migrations\IDriver')
+				->setClass(Etten\Migrations\IDriver::class)
 				->setFactory($factory);
 
 		} elseif ($driver === NULL) {
@@ -104,11 +108,11 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 	private function getDriverFactory($driver, $dbal)
 	{
-		if ($driver instanceof Nette\DI\Statement) {
-			return Nette\DI\Compiler::filterArguments([$driver])[0];
+		if ($driver instanceof DI\Statement) {
+			return DI\Compiler::filterArguments([$driver])[0];
 
 		} elseif (is_string($driver) && isset($this->drivers[$driver])) {
-			return new Nette\DI\Statement($this->drivers[$driver], [$dbal]);
+			return new DI\Statement($this->drivers[$driver], [$dbal]);
 
 		} else {
 			return NULL;
@@ -122,7 +126,7 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 		if ($factory) {
 			return $this->getContainerBuilder()
 				->addDefinition($this->prefix('dbal'))
-				->setClass('Etten\Migrations\IDbal')
+				->setClass(Etten\Migrations\IDbal::class)
 				->setFactory($factory);
 
 		} elseif ($dbal === NULL) {
@@ -135,8 +139,8 @@ class MigrationsExtension extends Nette\DI\CompilerExtension
 
 	private function getDbalFactory($dbal)
 	{
-		if ($dbal instanceof Nette\DI\Statement) {
-			return Nette\DI\Compiler::filterArguments([$dbal])[0];
+		if ($dbal instanceof DI\Statement) {
+			return DI\Compiler::filterArguments([$dbal])[0];
 
 		} elseif (is_string($dbal) && isset($this->dbals[$dbal])) {
 			return $this->dbals[$dbal];

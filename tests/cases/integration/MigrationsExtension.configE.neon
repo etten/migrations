@@ -1,5 +1,7 @@
 migrations:
-	dir: migrations
+	groups:
+		structures:
+			directory: /structures
 
 services:
 	- DibiConnection(%dibiConfig%)

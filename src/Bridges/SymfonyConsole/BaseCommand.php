@@ -23,36 +23,35 @@ abstract class BaseCommand extends Command
 	/** @var IDriver */
 	private $driver;
 
-	/** @var string */
-	private $dir;
+	/** @var array */
+	private $groups;
 
 	/** @var array */
 	private $extensionHandlers;
 
 	/**
 	 * @param  IDriver $driver
-	 * @param  string $dir
+	 * @param  array $groups
 	 * @param  array $extensionHandlers
 	 */
-	public function __construct(IDriver $driver, string $dir, $extensionHandlers = [])
+	public function __construct(IDriver $driver, array $groups, $extensionHandlers = [])
 	{
 		parent::__construct();
 		$this->driver = $driver;
-		$this->dir = $dir;
+		$this->groups = $groups;
 		$this->extensionHandlers = $extensionHandlers;
 	}
 
 	/**
 	 * @param  string $mode Runner::MODE_*
-	 * @param  bool $withDummy include dummy data?
 	 * @return void
 	 */
-	protected function runMigrations(string $mode, bool $withDummy)
+	protected function runMigrations(string $mode)
 	{
 		$printer = $this->getPrinter();
 		$runner = new Runner($this->driver, $printer);
 
-		foreach ($this->getGroups($withDummy) as $group) {
+		foreach ($this->getGroups() as $group) {
 			$runner->addGroup($group);
 		}
 
@@ -64,30 +63,23 @@ abstract class BaseCommand extends Command
 	}
 
 	/**
-	 * @param  bool $withDummy
 	 * @return Group[]
 	 */
-	protected function getGroups($withDummy)
+	protected function getGroups()
 	{
-		$structures = new Group();
-		$structures->enabled = TRUE;
-		$structures->name = 'structures';
-		$structures->directory = $this->dir . '/structures';
-		$structures->dependencies = [];
+		$groups = [];
 
-		$basicData = new Group();
-		$basicData->enabled = TRUE;
-		$basicData->name = 'basic-data';
-		$basicData->directory = $this->dir . '/basic-data';
-		$basicData->dependencies = ['structures'];
+		foreach ($this->groups as $name => $config) {
+			$group = new Group();
+			$group->enabled = $config['enabled'] ?? TRUE;
+			$group->name = $name;
+			$group->directory = $config['directory'];
+			$group->dependencies = $config['dependencies'] ?? [];
 
-		$dummyData = new Group();
-		$dummyData->enabled = $withDummy;
-		$dummyData->name = 'dummy-data';
-		$dummyData->directory = $this->dir . '/dummy-data';
-		$dummyData->dependencies = ['structures', 'basic-data'];
+			$groups[] = $group;
+		}
 
-		return [$structures, $basicData, $dummyData];
+		return $groups;
 	}
 
 	/**

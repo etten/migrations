@@ -13,7 +13,6 @@ use Etten\Migrations\Engine\Runner;
 use Etten\Migrations\Extensions;
 use Nette;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ResetCommand extends BaseCommand
@@ -24,13 +23,11 @@ class ResetCommand extends BaseCommand
 		$this->setName('migrations:reset');
 		$this->setDescription('Drops current database and recreates it from scratch');
 		$this->setHelp('Drops current database and runs all migrations');
-		$this->addOption('production', NULL, InputOption::VALUE_NONE, 'Will not import dummy data');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$withDummy = !$input->getOption('production');
-		$this->runMigrations(Runner::MODE_RESET, $withDummy);
+		$this->runMigrations(Runner::MODE_RESET);
 	}
 
 }

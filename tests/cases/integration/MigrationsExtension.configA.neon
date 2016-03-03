@@ -1,5 +1,19 @@
 migrations:
-	dir: migrations
+	groups:
+		structures:
+			directory: /structures
+
+		basic-data:
+			directory: /basic-data
+			dependencies:
+				- structures
+
+		dummy-data:
+			directory: /dummy-data
+			dependencies:
+				- structures
+				- basic-data
+
 	driver: mysql
 	dbal: dibi
 
