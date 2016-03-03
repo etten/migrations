@@ -31,7 +31,7 @@
             "Etten\\Migrations\\": "src/"
         },
         "classmap": [
-            "src/exceptions.php", "src/deprecated"
+            "src/exceptions.php"
         ]
     }
 }
