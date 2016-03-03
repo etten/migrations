@@ -25,7 +25,7 @@ install:
 
 before_script:
   # Prepare config files
-  - touch tests/php.ini
+  - cp tests/php.shippable.ini tests/php.ini
   - cp tests/dbals.sample.ini tests/dbals.ini
   - cp tests/drivers.sample.ini tests/drivers.ini
 
