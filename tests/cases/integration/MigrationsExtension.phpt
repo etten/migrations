@@ -20,7 +20,6 @@ class MigrationsExtensionTest extends TestCase
 	/**
 	 * @dataProvider provideData
 	 * @param string $config
-	 * @throws \Exception
 	 */
 	public function testExtension(string $config)
 	{
