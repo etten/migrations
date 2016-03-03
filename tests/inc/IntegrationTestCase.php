@@ -147,19 +147,6 @@ abstract class IntegrationTestCase extends TestCase
 					$options['password']
 				));
 
-			case 'nextras':
-				$drivers = [
-					'mysql' => 'mysqli',
-					'pgsql' => 'pgsql',
-				];
-				return new NextrasAdapter(new Nextras\Dbal\Connection([
-					'host' => $options['host'],
-					'username' => $options['username'],
-					'password' => $options['password'],
-					'database' => $options['database'],
-					'driver' => $drivers[$options['driver']],
-				]));
-
 			default:
 				throw new \Exception("Unknown DBAL '$options[dbal]'.");
 		}
