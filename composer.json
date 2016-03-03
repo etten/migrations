@@ -16,8 +16,7 @@
         "nette/di": "~2.3",
         "nette/utils": "~2.3",
         "nextras/dbal": "@dev",
-        "symfony/console": "~2.6",
-        "ext-openssl": "*"
+        "symfony/console": "~2.6"
     },
     "suggest": {
         "dibi/dibi": "to use DibiAdapter",
