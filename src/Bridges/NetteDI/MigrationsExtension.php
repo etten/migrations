@@ -60,7 +60,7 @@ class MigrationsExtension extends DI\CompilerExtension
 
 		$handlers['php'] = $builder->addDefinition($this->prefix('phpHandler'))
 			->setClass(Etten\Migrations\Extensions\PhpHandler::class)
-			->setArguments($config['phpParams']);
+			->setArguments([$config['phpParams']]);
 
 		foreach ($config['handlers'] as $extension => $handler) {
 			$handlers[$extension] = $handler;
