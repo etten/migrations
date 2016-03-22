@@ -22,7 +22,9 @@ class MigrationsExtension extends DI\CompilerExtension
 		'driver' => NULL,
 		'dbal' => NULL,
 		'handlers' => [],
-		'phpParams' => [],
+		'phpParams' => [
+			'container' => '@Nette\DI\Container',
+		],
 	];
 
 	/** @var array */
