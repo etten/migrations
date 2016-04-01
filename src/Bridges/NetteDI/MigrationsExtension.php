@@ -49,6 +49,8 @@ class MigrationsExtension extends DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$config = $this->validateConfig($this->defaults);
+		$config['groups'] += $this->loadParametersGroups();
+
 		Validators::assertField($config, 'groups', 'array');
 		Validators::assertField($config, 'handlers', 'array');
 
@@ -88,6 +90,26 @@ class MigrationsExtension extends DI\CompilerExtension
 			->setClass(Etten\Migrations\Bridges\SymfonyConsole\ResetCommand::class)
 			->setArguments($params)
 			->addTag('kdyby.console.command');
+	}
+
+	private function loadParametersGroups()
+	{
+		$builder = $this->getContainerBuilder();
+
+		$groups = [];
+		if (isset($builder->parameters['migrations']) && is_array($builder->parameters['migrations'])) {
+			foreach ($builder->parameters['migrations'] as $name => $data) {
+				$directory = array_shift($data);
+				$dependencies = $data;
+
+				$groups[$name] = [
+					'directory' => $directory,
+					'dependencies' => $dependencies,
+				];
+			}
+		}
+
+		return $groups;
 	}
 
 	private function getDriver($driver, $dbal)
