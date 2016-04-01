@@ -24,7 +24,6 @@ class CreateCommand extends BaseCommand
 	{
 		$this->setName('migrations:create');
 		$this->setDescription('Creates new migration file with proper name (e.g. 2015-03-14-130836-label.sql)');
-		$this->setHelp('Prints path of the created file to standard output.');
 		$this->addArgument('type', InputArgument::REQUIRED, 's(tructures), b(asic-data) or d(ummy-data');
 		$this->addArgument('label', InputArgument::REQUIRED, 'short description');
 	}

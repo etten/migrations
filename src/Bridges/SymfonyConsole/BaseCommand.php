@@ -30,9 +30,9 @@ abstract class BaseCommand extends Command
 	private $extensionHandlers;
 
 	/**
-	 * @param  IDriver $driver
-	 * @param  array $groups
-	 * @param  array $extensionHandlers
+	 * @param IDriver $driver
+	 * @param array $groups
+	 * @param array $extensionHandlers
 	 */
 	public function __construct(IDriver $driver, array $groups, $extensionHandlers = [])
 	{
@@ -43,7 +43,7 @@ abstract class BaseCommand extends Command
 	}
 
 	/**
-	 * @param  string $mode Runner::MODE_*
+	 * @param string $mode Runner::MODE_*
 	 * @return void
 	 */
 	protected function runMigrations(string $mode)

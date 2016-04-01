@@ -21,8 +21,7 @@ class ResetCommand extends BaseCommand
 	protected function configure()
 	{
 		$this->setName('migrations:reset');
-		$this->setDescription('Drops current database and recreates it from scratch');
-		$this->setHelp('Drops current database and runs all migrations');
+		$this->setDescription('Drops current database and recreates it from scratch.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
