@@ -22,8 +22,11 @@ class MigrationsExtension extends DI\CompilerExtension
 		'driver' => NULL,
 		'dbal' => NULL,
 		'handlers' => [],
-		'phpParams' => [
-			'container' => '@Nette\DI\Container',
+		'php' => [
+			'params' => [
+				'container' => '@Nette\DI\Container',
+			],
+			'before' => [],
 		],
 	];
 
@@ -64,7 +67,7 @@ class MigrationsExtension extends DI\CompilerExtension
 
 		$handlers['php'] = $builder->addDefinition($this->prefix('phpHandler'))
 			->setClass(Etten\Migrations\Extensions\PhpHandler::class)
-			->setArguments([$config['phpParams']]);
+			->setArguments([$config['php']['params'], $config['php']['before']]);
 
 		foreach ($config['handlers'] as $extension => $handler) {
 			$handlers[$extension] = $handler;
