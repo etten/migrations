@@ -90,6 +90,11 @@ class MigrationsExtension extends DI\CompilerExtension
 			->setClass(Etten\Migrations\Bridges\SymfonyConsole\ResetCommand::class)
 			->setArguments($params)
 			->addTag('kdyby.console.command');
+
+		$builder->addDefinition($this->prefix('initCommand'))
+			->setClass(Etten\Migrations\Bridges\SymfonyConsole\InitCommand::class)
+			->setArguments($params)
+			->addTag('kdyby.console.command');
 	}
 
 	private function loadParametersGroups()

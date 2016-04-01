@@ -37,8 +37,8 @@ class MigrationsExtensionTest extends TestCase
 		$dic = new $className;
 		Assert::type('Nette\DI\Container', $dic);
 		Assert::type('Etten\Migrations\Drivers\MySqlDriver', $dic->getByType('Etten\Migrations\IDriver'));
-		Assert::count(3, $dic->findByType('Symfony\Component\Console\Command\Command'));
-		Assert::count(3, $dic->findByTag('kdyby.console.command'));
+		Assert::count(4, $dic->findByType('Symfony\Component\Console\Command\Command'));
+		Assert::count(4, $dic->findByTag('kdyby.console.command'));
 	}
 
 	public function provideData()
