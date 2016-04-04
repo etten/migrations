@@ -90,7 +90,6 @@ class Runner
 		}
 
 		try {
-
 			$this->driver->setupConnection();
 			$this->driver->lock();
 
