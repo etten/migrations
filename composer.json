@@ -28,9 +28,6 @@
     "autoload": {
         "psr-4": {
             "Etten\\Migrations\\": "src/"
-        },
-        "classmap": [
-            "src/exceptions.php"
-        ]
+        }
     }
 }
