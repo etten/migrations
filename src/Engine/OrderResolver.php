@@ -19,10 +19,10 @@ class OrderResolver
 {
 
 	/**
-	 * @param  Migration[] $migrations
-	 * @param  Group[] $groups
-	 * @param  File[] $files
-	 * @param  string $mode
+	 * @param Migration[] $migrations
+	 * @param Group[] $groups
+	 * @param File[] $files
+	 * @param string $mode
 	 * @return File[]
 	 * @throws Exception
 	 */
