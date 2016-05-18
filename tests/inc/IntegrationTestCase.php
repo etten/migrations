@@ -53,7 +53,7 @@ abstract class IntegrationTestCase extends TestCase
 
 		$this->driver = $this->createDriver($options['driver'], $this->dbal);
 		$this->printer = $this->createPrinter();
-		$this->runner = new Runner($this->driver, $this->printer);
+		$this->runner = $this->createRunner();
 
 		foreach ($this->getGroups($this->fixtureDir) as $group) {
 			$this->runner->addGroup($group);
@@ -173,6 +173,14 @@ abstract class IntegrationTestCase extends TestCase
 	protected function createPrinter()
 	{
 		return new TestPrinter();
+	}
+
+	protected function createRunner()
+	{
+		$runner = new Runner($this->driver);
+		$runner->setPrinter($this->printer);
+
+		return $runner;
 	}
 
 }

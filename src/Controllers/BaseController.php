@@ -11,7 +11,6 @@ namespace Etten\Migrations\Controllers;
 
 use Etten\Migrations\Engine;
 use Etten\Migrations\Entities\Group;
-use Etten\Migrations\IDriver;
 use Etten\Migrations\IExtensionHandler;
 use Etten\Migrations\Printers;
 
@@ -27,10 +26,11 @@ abstract class BaseController
 	/** @var array (name => Group) */
 	protected $groups;
 
-	public function __construct(IDriver $driver)
+	public function __construct(Engine\Runner $runner)
 	{
-		$printer = $this->createPrinter();
-		$this->runner = new Engine\Runner($driver, $printer);
+		$this->runner = $runner;
+		$this->runner->setPrinter($this->createPrinter());
+
 		$this->mode = Engine\Runner::MODE_CONTINUE;
 		$this->groups = [];
 	}

@@ -20,8 +20,8 @@ use Symfony\Component\Console\Command\Command;
 abstract class BaseCommand extends Command
 {
 
-	/** @var IDriver */
-	private $driver;
+	/** @var Runner */
+	private $runner;
 
 	/** @var array */
 	private $groups;
@@ -30,14 +30,14 @@ abstract class BaseCommand extends Command
 	private $extensionHandlers;
 
 	/**
-	 * @param IDriver $driver
+	 * @param Runner $runner
 	 * @param array $groups
 	 * @param array $extensionHandlers
 	 */
-	public function __construct(IDriver $driver, array $groups, $extensionHandlers = [])
+	public function __construct(Runner $runner, array $groups, $extensionHandlers = [])
 	{
 		parent::__construct();
-		$this->driver = $driver;
+		$this->runner = $runner;
 		$this->groups = $groups;
 		$this->extensionHandlers = $extensionHandlers;
 	}
@@ -48,8 +48,8 @@ abstract class BaseCommand extends Command
 	 */
 	protected function runMigrations(string $mode)
 	{
-		$printer = $this->getPrinter();
-		$runner = new Runner($this->driver, $printer);
+		$runner = $this->runner;
+		$runner->setPrinter($this->getPrinter());
 
 		foreach ($this->getGroups() as $group) {
 			$runner->addGroup($group);

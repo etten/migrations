@@ -22,6 +22,10 @@ class MigrationsExtension extends DI\CompilerExtension
 		'driver' => NULL,
 		'dbal' => NULL,
 		'handlers' => [],
+		'runner' => [
+			'before' => [],
+			'after' => [],
+		],
 		'php' => [
 			'params' => [
 				'container' => '@Nette\DI\Container',
@@ -57,6 +61,7 @@ class MigrationsExtension extends DI\CompilerExtension
 
 		Validators::assertField($config, 'groups', 'array');
 		Validators::assertField($config, 'handlers', 'array');
+		Validators::assertField($config, 'runner', 'array');
 
 		$dbal = $this->getDbal($config['dbal']);
 		$driver = $this->getDriver($config['driver'], $dbal);
@@ -74,8 +79,12 @@ class MigrationsExtension extends DI\CompilerExtension
 			$handlers[$extension] = $handler;
 		}
 
+		$runner = $builder->addDefinition($this->prefix('runner'))
+			->setClass(Etten\Migrations\Engine\Runner::class)
+			->setArguments([$driver, $config['runner']['before'], $config['runner']['after']]);
+
 		$params = [
-			$driver,
+			$runner,
 			$config['groups'],
 			$handlers,
 		];

@@ -28,6 +28,15 @@ class Runner
 	const MODE_RESET = 'reset';
 	const MODE_INIT = 'init';
 
+	/** @var callable[] */
+	private $onBefore = [];
+
+	/** @var callable[] */
+	private $onAfter = [];
+
+	/** @var IDriver */
+	private $driver;
+
 	/** @var IPrinter */
 	private $printer;
 
@@ -37,21 +46,25 @@ class Runner
 	/** @var Group[] */
 	private $groups = [];
 
-	/** @var IDriver */
-	private $driver;
-
 	/** @var Finder */
 	private $finder;
 
 	/** @var OrderResolver */
 	private $orderResolver;
 
-	public function __construct(IDriver $driver, IPrinter $printer)
+	public function __construct(IDriver $driver, array $onBefore = [], array $onAfter = [])
 	{
+		$this->onBefore = $onBefore;
+		$this->onAfter = $onAfter;
 		$this->driver = $driver;
-		$this->printer = $printer;
 		$this->finder = new Finder;
 		$this->orderResolver = new OrderResolver;
+	}
+
+	public function setPrinter(IPrinter $printer)
+	{
+		$this->printer = $printer;
+		return $this;
 	}
 
 	public function addGroup(Group $group)
@@ -139,6 +152,8 @@ class Runner
 	{
 		$this->driver->beginTransaction();
 
+		$this->runHandlers($this->onBefore, [$file]);
+
 		$migration = new Migration;
 		$migration->group = $file->group->name;
 		$migration->filename = $file->name;
@@ -154,10 +169,19 @@ class Runner
 			throw new ExecutionException(sprintf('Executing migration "%s" has failed.', $file->path), NULL, $e);
 		}
 
+		$this->runHandlers($this->onAfter, [$file]);
+
 		$this->driver->markMigrationAsReady($migration);
 		$this->driver->commitTransaction();
 
 		return $queriesCount;
+	}
+
+	private function runHandlers(array $handlers, array $params = [])
+	{
+		foreach ($handlers as $callback) {
+			call_user_func_array($callback, $params);
+		}
 	}
 
 }
