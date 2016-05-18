@@ -29,10 +29,16 @@ class Runner
 	const MODE_INIT = 'init';
 
 	/** @var callable[] */
-	private $onBefore = [];
+	private $onStart = [];
 
 	/** @var callable[] */
-	private $onAfter = [];
+	private $onBeforeMigration = [];
+
+	/** @var callable[] */
+	private $onAfterMigration = [];
+
+	/** @var callable[] */
+	private $onFinish = [];
 
 	/** @var IDriver */
 	private $driver;
@@ -52,13 +58,35 @@ class Runner
 	/** @var OrderResolver */
 	private $orderResolver;
 
-	public function __construct(IDriver $driver, array $onBefore = [], array $onAfter = [])
+	public function __construct(IDriver $driver)
 	{
-		$this->onBefore = $onBefore;
-		$this->onAfter = $onAfter;
 		$this->driver = $driver;
 		$this->finder = new Finder;
 		$this->orderResolver = new OrderResolver;
+	}
+
+	public function addOnStart(callable $callback)
+	{
+		$this->onStart[] = $callback;
+		return $this;
+	}
+
+	public function addOnBeforeMigration(callable $callback)
+	{
+		$this->onBeforeMigration[] = $callback;
+		return $this;
+	}
+
+	public function addOnAfterMigration(callable $callback)
+	{
+		$this->onAfterMigration[] = $callback;
+		return $this;
+	}
+
+	public function addOnFinish(callable $callback)
+	{
+		$this->onFinish[] = $callback;
+		return $this;
 	}
 
 	public function setPrinter(IPrinter $printer)
@@ -102,6 +130,8 @@ class Runner
 			return;
 		}
 
+		$this->runHandlers($this->onStart, [$this]);
+
 		try {
 			$this->driver->setup();
 			$this->driver->lock();
@@ -130,6 +160,8 @@ class Runner
 			$this->driver->unlock();
 			$this->printer->printError($e);
 		}
+
+		$this->runHandlers($this->onFinish, [$this]);
 	}
 
 	/**
@@ -152,7 +184,7 @@ class Runner
 	{
 		$this->driver->beginTransaction();
 
-		$this->runHandlers($this->onBefore, [$file]);
+		$this->runHandlers($this->onBeforeMigration, [$file]);
 
 		$migration = new Migration;
 		$migration->group = $file->group->name;
@@ -169,7 +201,7 @@ class Runner
 			throw new ExecutionException(sprintf('Executing migration "%s" has failed.', $file->path), NULL, $e);
 		}
 
-		$this->runHandlers($this->onAfter, [$file]);
+		$this->runHandlers($this->onAfterMigration, [$file]);
 
 		$this->driver->markMigrationAsReady($migration);
 		$this->driver->commitTransaction();

@@ -23,8 +23,10 @@ class MigrationsExtension extends DI\CompilerExtension
 		'dbal' => NULL,
 		'handlers' => [],
 		'runner' => [
+			'start' => [],
 			'before' => [],
 			'after' => [],
+			'finish' => [],
 		],
 		'php' => [
 			'params' => [
@@ -79,7 +81,23 @@ class MigrationsExtension extends DI\CompilerExtension
 
 		$runner = $builder->addDefinition($this->prefix('runner'))
 			->setClass(Etten\Migrations\Engine\Runner::class)
-			->setArguments([$driver, $config['runner']['before'], $config['runner']['after']]);
+			->setArguments([$driver]);
+
+		foreach ($config['runner']['start'] as $callback) {
+			$runner->addSetup('addOnStart', [$callback]);
+		}
+
+		foreach ($config['runner']['before'] as $callback) {
+			$runner->addSetup('addOnBeforeMigration', [$callback]);
+		}
+
+		foreach ($config['runner']['after'] as $callback) {
+			$runner->addSetup('addOnAfterMigration', [$callback]);
+		}
+
+		foreach ($config['runner']['finish'] as $callback) {
+			$runner->addSetup('addOnFinish', [$callback]);
+		}
 
 		$params = [
 			$runner,
