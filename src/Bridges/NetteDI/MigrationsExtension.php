@@ -27,6 +27,7 @@ class MigrationsExtension extends DI\CompilerExtension
 				'container' => '@Nette\DI\Container',
 			],
 			'before' => [],
+			'after' => [],
 		],
 	];
 
@@ -67,7 +68,7 @@ class MigrationsExtension extends DI\CompilerExtension
 
 		$handlers['php'] = $builder->addDefinition($this->prefix('phpHandler'))
 			->setClass(Etten\Migrations\Extensions\PhpHandler::class)
-			->setArguments([$config['php']['params'], $config['php']['before']]);
+			->setArguments([$config['php']['params'], $config['php']['before'], $config['php']['after']]);
 
 		foreach ($config['handlers'] as $extension => $handler) {
 			$handlers[$extension] = $handler;
