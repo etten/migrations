@@ -22,7 +22,7 @@ use Etten\Migrations\LockException;
 class MySqlDriver extends BaseDriver implements IDriver
 {
 
-	public function setupConnection()
+	public function setup()
 	{
 		$this->dbal->exec('SET NAMES "utf8"');
 		$this->dbal->exec('SET foreign_key_checks = 0');

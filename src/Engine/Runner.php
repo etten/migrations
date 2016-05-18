@@ -90,7 +90,7 @@ class Runner
 		}
 
 		try {
-			$this->driver->setupConnection();
+			$this->driver->setup();
 			$this->driver->lock();
 
 			$this->printer->printIntro($mode);

@@ -49,7 +49,7 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->lockTableName = $dbal->escapeIdentifier($tableName . '_lock');
 	}
 
-	public function setupConnection()
+	public function setup()
 	{
 	}
 

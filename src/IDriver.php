@@ -24,7 +24,7 @@ interface IDriver
 	/**
 	 * Setups the connection, such as encoding, default schema, etc.
 	 */
-	public function setupConnection();
+	public function setup();
 
 	/**
 	 * Drops the database / schema. Should removes all db objects (tables, views, procedures, sequences, ...)
