@@ -59,4 +59,19 @@ interface IDbal
 	 */
 	public function escapeIdentifier(string $value);
 
+	/**
+	 * @return void
+	 */
+	public function beginTransaction();
+
+	/**
+	 * @return void
+	 */
+	public function commit();
+
+	/**
+	 * @return void
+	 */
+	public function rollBack();
+
 }

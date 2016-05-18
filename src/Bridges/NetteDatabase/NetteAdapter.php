@@ -65,4 +65,19 @@ class NetteAdapter implements IDbal
 		return $this->conn->getSupplementalDriver()->delimite($value);
 	}
 
+	public function beginTransaction()
+	{
+		$this->conn->beginTransaction();
+	}
+
+	public function commit()
+	{
+		$this->conn->commit();
+	}
+
+	public function rollBack()
+	{
+		$this->conn->rollBack();
+	}
+
 }

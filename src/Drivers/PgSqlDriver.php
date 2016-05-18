@@ -59,21 +59,6 @@ class PgSqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("CREATE SCHEMA {$this->schema}");
 	}
 
-	public function beginTransaction()
-	{
-		$this->dbal->exec('START TRANSACTION');
-	}
-
-	public function commitTransaction()
-	{
-		$this->dbal->exec('COMMIT');
-	}
-
-	public function rollbackTransaction()
-	{
-		$this->dbal->exec('ROLLBACK');
-	}
-
 	public function lock()
 	{
 		try {

@@ -43,21 +43,6 @@ class MySqlDriver extends BaseDriver implements IDriver
 		$this->dbal->exec("USE $dbName");
 	}
 
-	public function beginTransaction()
-	{
-		$this->dbal->exec('START TRANSACTION');
-	}
-
-	public function commitTransaction()
-	{
-		$this->dbal->exec('COMMIT');
-	}
-
-	public function rollbackTransaction()
-	{
-		$this->dbal->exec('ROLLBACK');
-	}
-
 	public function lock()
 	{
 		$lock = $this->dbal->escapeString(self::LOCK_NAME);

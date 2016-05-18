@@ -37,6 +37,21 @@ abstract class BaseDriver implements IDriver
 		$this->tableName = $dbal->escapeIdentifier($tableName);
 	}
 
+	public function beginTransaction()
+	{
+		$this->dbal->beginTransaction();
+	}
+
+	public function commitTransaction()
+	{
+		$this->dbal->commit();
+	}
+
+	public function rollbackTransaction()
+	{
+		$this->dbal->rollBack();
+	}
+
 	/**
 	 * Loads and executes SQL queries from given file. Taken from Adminer (Apache License), modified.
 	 *

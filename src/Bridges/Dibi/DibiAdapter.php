@@ -62,4 +62,19 @@ class DibiAdapter implements IDbal
 		return $this->conn->getDriver()->escape($value, dibi::IDENTIFIER);
 	}
 
+	public function beginTransaction()
+	{
+		$this->conn->begin();
+	}
+
+	public function commit()
+	{
+		$this->conn->commit();
+	}
+
+	public function rollBack()
+	{
+		$this->conn->rollback();
+	}
+
 }
