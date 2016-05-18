@@ -23,24 +23,14 @@ class PhpHandler implements IExtensionHandler
 	/** @var array name => value */
 	private $params = [];
 
-	/** @var callable[] */
-	private $onBefore = [];
-
-	/** @var callable[] */
-	private $onAfter = [];
-
 	/**
 	 * @param array $params name => value
-	 * @param callable[] $onBefore callbacks executed before each migration.
-	 * @param callable[] $onAfter callbacks executed after each migration.
 	 */
-	public function __construct(array $params = [], array $onBefore = [], array $onAfter = [])
+	public function __construct(array $params = [])
 	{
 		foreach ($params as $name => $value) {
 			$this->addParameter($name, $value);
 		}
-
-		$this->onBefore = $onBefore;
 	}
 
 	/**
@@ -64,24 +54,13 @@ class PhpHandler implements IExtensionHandler
 
 	public function execute(File $file)
 	{
-		$this->runHandlers($this->onBefore);
-
 		extract($this->params, EXTR_SKIP);
 		$count = @include $file->path;
 		if ($count === FALSE) {
 			throw new IOException("Cannot include file '{$file->path}'.");
 		}
 
-		$this->runHandlers($this->onAfter);
-
 		return $count;
-	}
-
-	private function runHandlers(array $handlers)
-	{
-		foreach ($handlers as $callback) {
-			call_user_func($callback, $this);
-		}
 	}
 
 }
