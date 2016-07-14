@@ -52,17 +52,9 @@ class Runner
 	/** @var Group[] */
 	private $groups = [];
 
-	/** @var Finder */
-	private $finder;
-
-	/** @var OrderResolver */
-	private $orderResolver;
-
 	public function __construct(IDriver $driver)
 	{
 		$this->driver = $driver;
-		$this->finder = new Finder;
-		$this->orderResolver = new OrderResolver;
 	}
 
 	public function addOnStart(callable $callback)
@@ -122,10 +114,14 @@ class Runner
 	 */
 	public function run(string $mode = self::MODE_CONTINUE)
 	{
+		$fileFactory = new FileFactory(array_keys($this->extensionsHandlers));
+		$finder = new Finder($fileFactory);
+		$orderResolver = new OrderResolver;
+
 		if ($mode === self::MODE_INIT) {
 			$this->printer->printSource($this->driver->getInitTableSource() . "\n");
-			$files = $this->finder->find($this->groups, array_keys($this->extensionsHandlers));
-			$files = $this->orderResolver->resolve([], $this->groups, $files, self::MODE_RESET);
+			$files = $finder->find($this->groups);
+			$files = $orderResolver->resolve([], $this->groups, $files, self::MODE_RESET);
 			$this->printer->printSource($this->driver->getInitMigrationsSource($files));
 			return;
 		}
@@ -143,8 +139,8 @@ class Runner
 
 			$this->driver->createTable();
 			$migrations = $this->driver->getAllMigrations();
-			$files = $this->finder->find($this->groups, array_keys($this->extensionsHandlers));
-			$toExecute = $this->orderResolver->resolve($migrations, $this->groups, $files, $mode);
+			$files = $finder->find($this->groups);
+			$toExecute = $orderResolver->resolve($migrations, $this->groups, $files, $mode);
 			$this->printer->printToExecute($toExecute);
 
 			foreach ($toExecute as $file) {
