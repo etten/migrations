@@ -19,6 +19,7 @@ class MigrationsExtension extends DI\CompilerExtension
 	/** @var array */
 	public $defaults = [
 		'groups' => [],
+		'forced' => [],
 		'driver' => NULL,
 		'dbal' => NULL,
 		'handlers' => [],
@@ -60,6 +61,7 @@ class MigrationsExtension extends DI\CompilerExtension
 		$config['groups'] += $this->loadParametersGroups();
 
 		Validators::assertField($config, 'groups', 'array');
+		Validators::assertField($config, 'forced', 'array');
 		Validators::assertField($config, 'handlers', 'array');
 		Validators::assertField($config, 'runner', 'array');
 
@@ -98,6 +100,12 @@ class MigrationsExtension extends DI\CompilerExtension
 		foreach ($config['runner']['finish'] as $callback) {
 			$runner->addSetup('addOnFinish', [$callback]);
 		}
+
+		$forced = $builder->addDefinition($this->prefix('forced'))
+			->setClass(Etten\Migrations\Engine\Forced::class)
+			->setArguments([$driver, $config['forced']]);
+
+		$runner->addSetup('addOnStart', [[$forced, 'execute']]);
 
 		$params = [
 			$runner,
