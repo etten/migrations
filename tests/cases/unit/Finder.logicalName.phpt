@@ -6,6 +6,7 @@
 
 namespace Etten\Migrations;
 
+use Etten\Migrations\Engine\FileFactory;
 use Etten\Migrations\Engine\Finder;
 use Etten\Migrations\Entities\Group;
 use Mockery;
@@ -17,6 +18,9 @@ require __DIR__ . '/../../bootstrap.php';
 class FinderLogicalNameTest extends Tester\TestCase
 {
 
+	/** @var FileFactory */
+	private $fileFactory;
+
 	/** @var Finder|Mockery\MockInterface */
 	private $finder;
 
@@ -26,11 +30,16 @@ class FinderLogicalNameTest extends Tester\TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->finder = Mockery::mock('Etten\Migrations\Engine\Finder')
+
+		$this->fileFactory = Mockery::mock(FileFactory::class, [['sql']])
 			->shouldAllowMockingProtectedMethods()
 			->shouldDeferMissing()
 			->shouldReceive('getChecksum')
 			->getMock();
+
+		$this->finder = Mockery::mock(Finder::class, [$this->fileFactory])
+			->shouldAllowMockingProtectedMethods()
+			->shouldDeferMissing();
 
 		$group = new Group();
 		$group->dependencies = [];
@@ -50,7 +59,7 @@ class FinderLogicalNameTest extends Tester\TestCase
 				'2015-07-06.sql',
 			]);
 
-		$files = $this->finder->find($this->groups, ['sql']);
+		$files = $this->finder->find($this->groups);
 		Assert::count(3, $files);
 		Assert::same('2015-03-04.sql', $files[0]->name);
 		Assert::same('2015-03-06.sql', $files[1]->name);
@@ -71,7 +80,7 @@ class FinderLogicalNameTest extends Tester\TestCase
 			->with('./baseDir/structures/2015/03')
 			->andReturn(['2015-03-04.sql']);
 
-		$files = $this->finder->find($this->groups, ['sql']);
+		$files = $this->finder->find($this->groups);
 		Assert::count(3, $files);
 		Assert::same('2015-07-06.sql', $files[0]->name);
 		Assert::same('2015-03-06.sql', $files[1]->name);

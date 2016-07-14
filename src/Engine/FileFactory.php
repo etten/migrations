@@ -41,7 +41,7 @@ class FileFactory
 	 * @param  string $path relative path to group directory
 	 * @return string
 	 */
-	private function getName(string $path)
+	protected function getName(string $path)
 	{
 		$parts = explode('/', $path);
 		$dirName = implode('-', array_slice($parts, 0, -1));
@@ -57,7 +57,7 @@ class FileFactory
 	 * @return string
 	 * @throws Exception
 	 */
-	private function getExtension(File $file, array $extensions)
+	protected function getExtension(File $file, array $extensions)
 	{
 		$fileExt = NULL;
 
@@ -92,7 +92,7 @@ class FileFactory
 	 * @param File $file
 	 * @return string
 	 */
-	private function getChecksum(File $file)
+	protected function getChecksum(File $file)
 	{
 		$content = @file_get_contents($file->path);
 		if ($content === FALSE) {
