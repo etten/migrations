@@ -46,16 +46,18 @@ class HttpController extends BaseController
 						if (isset($this->groups[$group])) {
 							$this->groups[$group]->enabled = TRUE;
 						} else {
-							$error = sprintf(
-								"Unknown group '%s', the following groups are registered: '%s'",
-								$group,
-								implode('\', \'', array_keys($this->groups))
+							$this->error(
+								sprintf(
+									"Unknown group '%s', the following groups are registered: '%s'",
+									$group,
+									implode('\', \'', array_keys($this->groups))
+								)
 							);
-							goto error;
+							return;
 						}
 					} else {
-						$error = 'Malformed groups parameter.';
-						goto error;
+						$this->error('Malformed groups parameter.');
+						return;
 					}
 				}
 			} else {
@@ -65,8 +67,8 @@ class HttpController extends BaseController
 			}
 
 			if (!isset($_GET['mode'])) {
-				$error = 'Missing mode parameter.';
-				goto error;
+				$this->error('Missing mode parameter.');
+				return;
 			}
 
 			switch ($_GET['mode']) {
@@ -80,14 +82,14 @@ class HttpController extends BaseController
 					$this->mode = Engine\Runner::MODE_INIT;
 					break;
 				default:
-					$error = 'Unknown mode.';
-					goto error;
+					$this->error('Unknown mode.');
+					return;
 			}
 		}
+	}
 
-		return;
-
-		error:
+	private function error(string $error)
+	{
 		$this->action = 'error';
 		$this->error = $error;
 	}
