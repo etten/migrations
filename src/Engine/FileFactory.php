@@ -8,6 +8,7 @@
 namespace Etten\Migrations\Engine;
 
 use Etten\Migrations\Entities\File;
+use Etten\Migrations\Entities\Group;
 use Etten\Migrations\Exception;
 use Etten\Migrations\IOException;
 use Etten\Migrations\LogicException;
@@ -23,7 +24,7 @@ class FileFactory
 		$this->extensions = $extensions;
 	}
 
-	public function create($path, $group)
+	public function create(string $path, Group $group) :File
 	{
 		$file = new File;
 		$file->group = $group;
@@ -31,6 +32,8 @@ class FileFactory
 		$file->path = $group->directory . '/' . $path;
 		$file->extension = $this->getExtension($file, $this->extensions);
 		$file->checksum = $this->getChecksum($file);
+
+		return $file;
 	}
 
 	/**
