@@ -11,8 +11,6 @@ namespace Etten\Migrations\Bridges\SymfonyConsole;
 
 use Etten\Migrations\Engine\Runner;
 use Etten\Migrations\Entities\Group;
-use Etten\Migrations\Extensions;
-use Etten\Migrations\IDriver;
 use Etten\Migrations\IPrinter;
 use Etten\Migrations\Printers\Console;
 use Symfony\Component\Console\Command\Command;

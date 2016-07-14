@@ -10,8 +10,6 @@
 namespace Etten\Migrations\Bridges\SymfonyConsole;
 
 use Etten;
-use Etten\Migrations\Extensions;
-use Nette;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

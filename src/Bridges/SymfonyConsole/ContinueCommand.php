@@ -10,8 +10,6 @@
 namespace Etten\Migrations\Bridges\SymfonyConsole;
 
 use Etten\Migrations\Engine\Runner;
-use Etten\Migrations\Extensions;
-use Nette;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

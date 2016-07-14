@@ -12,7 +12,6 @@ namespace Etten\Migrations\Controllers;
 use Etten\Migrations\Engine;
 use Etten\Migrations\Entities\Group;
 use Etten\Migrations\IExtensionHandler;
-use Etten\Migrations\Printers;
 
 abstract class BaseController
 {
