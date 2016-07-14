@@ -27,7 +27,7 @@ class Forced
 	public function execute()
 	{
 		foreach ($this->files as $file) {
-			$this->driver->loadFile($file);
+			$this->driver->loadFileAndSuppressErrors($file);
 		}
 	}
 

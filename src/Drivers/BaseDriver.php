@@ -66,6 +66,24 @@ abstract class BaseDriver implements IDriver
 	 */
 	public function loadFile(string $path)
 	{
+		return $this->doLoadFile($path, function ($q) {
+			$this->dbal->exec($q);
+		});
+	}
+
+	public function loadFileAndSuppressErrors(string $path)
+	{
+		return $this->doLoadFile($path, function ($q) {
+			try {
+				$this->dbal->exec($q);
+			} catch (\Throwable $e) {
+				// Suppress
+			}
+		});
+	}
+
+	private function doLoadFile(string $path, \Closure $exec)
+	{
 		$query = @file_get_contents($path);
 		if ($query === FALSE) {
 			throw new IOException("Cannot open file '$path'.");
@@ -98,7 +116,7 @@ abstract class BaseDriver implements IDriver
 					$q = substr($query, 0, $match[0][1]);
 
 					$queries++;
-					$this->dbal->exec($q);
+					$exec($q);
 
 					$query = substr($query, $offset);
 					$offset = 0;

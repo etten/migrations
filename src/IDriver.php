@@ -40,6 +40,13 @@ interface IDriver
 	public function loadFile(string $path);
 
 	/**
+	 * Loads and executes SQL queries from given file.
+	 * @param  string $path
+	 * @return int number of executed queries
+	 */
+	public function loadFileAndSuppressErrors(string $path);
+
+	/**
 	 * Starts transaction.
 	 */
 	public function beginTransaction();
