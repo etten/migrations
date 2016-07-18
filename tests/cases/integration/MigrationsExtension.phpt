@@ -8,7 +8,6 @@ namespace Etten\Migrations;
 
 use Etten\Migrations\Bridges\NetteDI\MigrationsExtension;
 use Nette;
-use Tester;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -25,13 +24,16 @@ class MigrationsExtensionTest extends TestCase
 	{
 		$dibiConfig = parse_ini_file(__DIR__ . '/../../drivers.ini', TRUE)['mysql'];
 
-		$loader = new Nette\DI\ContainerLoader(TEMP_DIR);
-		$key = __FILE__ . ':' . __LINE__ . ':' . $config;
-		$className = $loader->load($key, function (Nette\DI\Compiler $compiler) use ($config, $dibiConfig) {
+		$generator = function (Nette\DI\Compiler $compiler) use ($config, $dibiConfig) {
 			$compiler->addExtension('migrations', new MigrationsExtension());
 			$compiler->addConfig(['parameters' => ['dibiConfig' => $dibiConfig]]);
 			$compiler->loadConfig(__DIR__ . "/MigrationsExtension.$config.neon");
-		});
+		};
+
+		$key = __FILE__ . ':' . __LINE__ . ':' . $config;
+
+		$loader = new Nette\DI\ContainerLoader(TEMP_DIR);
+		$className = $loader->load($generator, $key);
 
 		/** @var Nette\DI\Container $dic */
 		$dic = new $className;
