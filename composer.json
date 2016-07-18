@@ -6,17 +6,17 @@
         "php": ">=7.0"
     },
     "require-dev": {
-        "nette/tester": "~1.4",
-        "mockery/mockery": "~0.9",
+        "nette/tester": "^1.7",
+        "mockery/mockery": "^0.9",
         "squizlabs/php_codesniffer": "~2.6.0",
         "etten/codestyle": "^2.0",
-        "dibi/dibi": "~2.3",
-        "doctrine/dbal": "~2.5",
-        "nette/database": "~2.2",
-        "nette/di": "~2.3",
-        "nette/utils": "~2.3",
-        "nextras/dbal": "@dev",
-        "symfony/console": "~2.6"
+        "dibi/dibi": "^2.3",
+        "doctrine/dbal": "^2.5",
+        "nette/database": "^2.3",
+        "nette/di": "^2.3",
+        "nette/utils": "^2.3",
+        "nextras/dbal": "^2.0",
+        "symfony/console": "^2.8"
     },
     "suggest": {
         "dibi/dibi": "to use DibiAdapter",
