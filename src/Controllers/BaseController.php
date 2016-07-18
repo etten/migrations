@@ -45,13 +45,11 @@ abstract class BaseController
 		$group->enabled = FALSE;
 
 		$this->groups[$name] = $group;
-		return $this;
 	}
 
 	public function addExtension($extension, IExtensionHandler $handler)
 	{
 		$this->runner->addExtensionHandler($extension, $handler);
-		return $this;
 	}
 
 	protected function registerGroups()

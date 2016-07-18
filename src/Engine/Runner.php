@@ -60,43 +60,36 @@ class Runner
 	public function addOnStart(callable $callback)
 	{
 		$this->onStart[] = $callback;
-		return $this;
 	}
 
 	public function addOnBeforeMigration(callable $callback)
 	{
 		$this->onBeforeMigration[] = $callback;
-		return $this;
 	}
 
 	public function addOnAfterMigration(callable $callback)
 	{
 		$this->onAfterMigration[] = $callback;
-		return $this;
 	}
 
 	public function addOnFinish(callable $callback)
 	{
 		$this->onFinish[] = $callback;
-		return $this;
 	}
 
 	public function setPrinter(IPrinter $printer)
 	{
 		$this->printer = $printer;
-		return $this;
 	}
 
 	public function addGroup(Group $group)
 	{
 		$this->groups[] = $group;
-		return $this;
 	}
 
 	/**
 	 * @param  string $extension
 	 * @param  IExtensionHandler $handler
-	 * @return self
 	 */
 	public function addExtensionHandler(string $extension, IExtensionHandler $handler)
 	{
@@ -105,7 +98,6 @@ class Runner
 		}
 
 		$this->extensionsHandlers[$extension] = $handler;
-		return $this;
 	}
 
 	/**

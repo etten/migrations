@@ -34,14 +34,12 @@ class PhpHandler implements IExtensionHandler
 	}
 
 	/**
-	 * @param  string $name
-	 * @param  mixed $value
-	 * @return self
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function addParameter(string $name, $value)
 	{
 		$this->params[$name] = $value;
-		return $this;
 	}
 
 	/**
