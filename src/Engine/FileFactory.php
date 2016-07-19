@@ -24,7 +24,7 @@ class FileFactory
 		$this->extensions = $extensions;
 	}
 
-	public function create(string $path, Group $group) :File
+	public function create(string $path, Group $group): File
 	{
 		$file = new File;
 		$file->group = $group;
