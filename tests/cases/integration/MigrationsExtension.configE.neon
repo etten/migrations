@@ -1,9 +1,0 @@
-migrations:
-	groups:
-		structures:
-			directory: /structures
-
-services:
-	- DibiConnection(%dibiConfig%)
-	- Etten\Migrations\Drivers\MySqlDriver
-	- Etten\Migrations\Bridges\Dibi\DibiAdapter(...)
